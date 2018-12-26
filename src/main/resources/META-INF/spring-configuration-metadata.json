@@ -1,0 +1,75 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "name": "xiaoqiang.client",
+      "type": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": false,
+      "name": "xiaoqiang.client.classloader",
+      "description": "开启classloader的监控",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": false,
+      "name": "xiaoqiang.client.cpu",
+      "description": "开启cpu的监控",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": false,
+      "name": "xiaoqiang.client.gc",
+      "description": "开启gc的监控",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": false,
+      "name": "xiaoqiang.client.memory",
+      "description": "开启memory的监控",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": false,
+      "name": "xiaoqiang.client.runtime",
+      "description": "开启runtime的监控",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": false,
+      "name": "xiaoqiang.client.thread",
+      "description": "开启thread的监控",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": "cglib",
+      "name": "xiaoqiang.client.proxyway",
+      "description": "设置代理方式",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": 5,
+      "name": "xiaoqiang.client.retryCount",
+      "description": "设置方法失败重试的次数",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
+      "defaultValue": 200,
+      "name": "xiaoqiang.client.retryDelay",
+      "description": "设置方法失败重试的延迟",
+      "type": "java.lang.Integer"
+    }
+  ]
+}
