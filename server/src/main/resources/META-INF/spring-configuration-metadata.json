@@ -1,0 +1,26 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.xiaoqiang.server.properties.XiaoQiangServerProperties",
+      "name": "xiaoqiang.server",
+      "type": "com.xiaoqiang.server.properties.XiaoQiangServerProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.xiaoqiang.server.properties.XiaoQiangServerProperties",
+      "defaultValue": "\/",
+      "name": "xiaoqiang.server.path",
+      "description": "设置XiaoQiangServer的访问路径",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.xiaoqiang.server.properties.XiaoQiangServerProperties",
+      "defaultValue": true,
+      "name": "xiaoqiang.server.enabled",
+      "description": "是否开启XiaoQiang网页监控",
+      "type": "java.lang.Boolean"
+    }
+  ]
+}
