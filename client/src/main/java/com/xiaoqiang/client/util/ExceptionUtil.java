@@ -141,7 +141,7 @@ public class ExceptionUtil {
             //NEW 1226：
             //匹配指定前缀再打印
             if(isFilter){
-                    if (!className.startsWith(XiaoQiangRetryConfigBean.getPREFIX())) {
+                    if (!className.startsWith(XiaoQiangRetryConfigBean.getMyPackagePrefix())) {
                         isIgnored=true;
                         continue foreach;
                     }

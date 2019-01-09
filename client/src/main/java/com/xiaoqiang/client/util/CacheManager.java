@@ -18,12 +18,14 @@ public class CacheManager {
     private static int size = 0;
     private static final int keepaliveTime = 180000;
     private static final int capacity = 500;
+    private static final List<ExceptionInfos> EMPTY=new ArrayList<>(0);
     //不能创建泛型数组
     private static Entry[] caches = new Entry[500];
     //查找指定时间戳之前的异常信息
     public static List<ExceptionInfos> query(long timeMillis) {
 
-        if(size==0) return null;
+        //如果当前无数据，返回固定的空对象，不要返回null，ajax调用时不会执行回调函数。
+        if(size==0) return EMPTY;
 
         //使用最笨的遍历查找法，先找到目标元素的范围position
         Entry<Long, ExceptionInfos> e;

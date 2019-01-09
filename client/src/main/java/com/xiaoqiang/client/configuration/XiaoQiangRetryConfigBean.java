@@ -56,7 +56,7 @@ public class XiaoQiangRetryConfigBean {
         this.onlyMyPackage = onlyMyPackage;
     }
 
-    public String getMyPackagePrefix() {
+    public static String getMyPackagePrefix() {
         return myPackagePrefix;
     }
 

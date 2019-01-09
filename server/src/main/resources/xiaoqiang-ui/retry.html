@@ -9,6 +9,8 @@
     <script src="./resource/html5shiv.min.js"></script>
     <script src="./resource/respond.min.js"></script><![endif]-->
     <link rel="stylesheet" type="text/css" href="./resource/main.css">
+    <script type="text/javascript" src="./resource/echarts.js"></script>
+    <script type="text/javascript" src="./resource/jquery.js"></script>
     <title>XiaoQiang Demo</title>
     <script src="./resource/hm.js"></script>
     <script type="text/javascript">window.EC_DEMO_LANG = 'cn';
@@ -22,8 +24,8 @@
                     class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span
                     class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
             <a href="#" class="navbar-brand"><img src="./resource/logo.png"
-                                                                                    alt="xiaoqiang logo"
-                                                                                    class="navbar-logo"></a></div>
+                                                  alt="xiaoqiang logo"
+                                                  class="navbar-logo"></a></div>
         <div id="navbar-collapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li id="nav-monitor"><a href="monitor.html">Monitor</a></li>
@@ -36,12 +38,6 @@
         </div>
     </div>
 </nav>
-<script type="text/javascript">var selector = window.EC_DEMO_LANG === 'en' ? 'nav-start' : 'nav-examples';
-var menu = document.getElementById(selector);
-if (menu) {
-    menu.className = 'active';
-}
-</script>
 <div id="left-chart-nav">
     <ul>
         <li class="active"><a class="left-chart-nav-link" id="left-chart-nav-summary"
@@ -49,11 +45,11 @@ if (menu) {
             <div class="chart-icon"></div>
             <div class="chart-name">异常概览</div>
         </a></li>
-        <li><a class="left-chart-nav-link" id="left-chart-nav-list"
-               href="retry.html/#chart-type-list">
-            <div class="chart-icon"></div>
-            <div class="chart-name">异常列表</div>
-        </a></li>
+        <!--<li><a class="left-chart-nav-link" id="left-chart-nav-list"-->
+               <!--href="retry.html/#chart-type-list">-->
+            <!--<div class="chart-icon"></div>-->
+            <!--<div class="chart-name">异常列表</div>-->
+        <!--</a></li>-->
     </ul>
 </div>
 <div id="explore-container">
@@ -63,22 +59,103 @@ if (menu) {
                 <div class="chart"><a target="_blank" class="chart-link"
                                       href="#"><h4
                         class="chart-title">异常概览</h4></a></div>
-                以饼状图显示异常的类型信息，以折线图显示异常发生的时间和梳理
+                以树状图显示异常的类型信息等信息
+                <div id="exChart" style="width: 1200px;height:400px;"></div>
+                <!--，以折线图显示异常发生的时间和梳理-->
             </div>
         </div>
     </div>
-    <div class="chart-list-panel"><h3 class="chart-type-head" id="chart-type-list">异常列表<span>Line</span></h3>
-        <div class="row" id="chart-row-list">
-            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                <div class="chart"><a target="_blank" class="chart-link"
-                                      href="#"><h4
-                        class="chart-title">异常列表</h4></a></div>
-                以列表的形式显示异常的具体栈信息，以及retry重试的次数和执行的结果
-            </div>
-        </div>
-    </div>
+    <!--<div class="chart-list-panel"><h3 class="chart-type-head" id="chart-type-list">异常列表<span>Line</span></h3>-->
+        <!--<div class="row" id="chart-row-list">-->
+            <!--<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">-->
+                <!--<div class="chart"><a target="_blank" class="chart-link"-->
+                                      <!--href="#"><h4-->
+                        <!--class="chart-title">异常列表</h4></a></div>-->
+                <!--以列表的形式显示异常的具体栈信息，以及retry重试的次数和执行的结果-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
-<script type="text/javascript" src="./resource/jquery.js"></script>
+<script>
+    var exChart = echarts.init(document.getElementById('exChart'));
+
+
+    exChart.showLoading();
+    //http://localhost:8080/exception/query
+    $.get("resource/treeData.json", function (data) {
+        //所有节点都隐藏
+        exChart.hideLoading();
+        echarts.util.each(data.children, function (datum, index) {
+            datum.collapsed = true;
+        });
+
+        exChart.setOption(option = {
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove'
+            },
+            series: [
+                {
+                    type: 'tree',
+
+                    data: [data],
+
+                    top: '1%',
+                    left: '7%',
+                    bottom: '1%',
+                    right: '20%',
+
+                    //设置图标大小
+                    symbolSize: 7,
+
+                    //设置未展开时图标的标签名称
+                    label: {
+                        normal: {
+                            position: 'left',
+                            verticalAlign: 'middle',
+                            align: 'right',
+                            fontSize: 15
+                        }
+                    },
+                    //设置展开时图标的标签名称
+                    leaves: {
+                        label: {
+                            normal: {
+                                position: 'right',
+                                verticalAlign: 'middle',
+                                align: 'left'
+                            }
+                        }
+                    },
+
+                    expandAndCollapse: true,
+                    //树状图显示节点的时间
+                    animationDuration: 550,
+                    //树状图展开或缩回的时间
+                    animationDurationUpdate: 750
+                }
+            ]
+        });
+    }, "json");
+
+    //ajax接口不能返回null，否则回调方法不会执行。
+//    setInterval(function () {
+//        $.get("http://localhost:8080/exception/query", function (data, status) {
+//            console.log(data);
+//            if (status == "success") {
+//                if(data.size>0){
+//                    var ex;
+//                    for(ex in data){
+//                        console.log(ex);
+//                    }
+//                }else{
+//                    console.log("无新的异常信息")
+//                }
+//            }
+//        }, "json");
+//    }, 2000);
+
+</script>
 <script type="text/javascript" src="./resource/bootstrap.js"></script>
 <!--<script type="text/javascript" src="./resource/lodash.js"></script>-->
 <!--<script type="text/javascript" src="./resource/waypoint.js"></script>-->

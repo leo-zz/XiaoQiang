@@ -13,6 +13,7 @@ public class ExceptionController {
 
     @RequestMapping("query")
     public List<ExceptionInfos> queryExceptionInfos(){
+
         return CacheManager.query(System.currentTimeMillis());
     }
 

@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="./resource/main.css">
     <title>XiaoQiang Demo</title>
     <script src="./resource/hm.js"></script>
-    <script src="resource/xiaoqiang.js"></script>
+    <script src="resource/xiaoqiangmonitor.js"></script>
     <script type="text/javascript" src="./resource/echarts.js"></script>
     <script type="text/javascript">window.EC_DEMO_LANG = 'cn';
     </script>
@@ -108,6 +108,8 @@
                                       href="#"><h4
                         class="chart-title">GC信息</h4></a></div>
                 以折线图的形式展示，信息包含多个GC收集器信息（GC总次数、总耗时，GC前的内存使用情况、GC后的内存使用情况，GC的耗时和id，开始和结束时间）
+                <div id="gcCount" style="width: 600px;height:400px;"></div>
+                <div id="gcTime" style="width: 600px;height:400px;"></div>
             </div>
         </div>
     </div>
@@ -119,10 +121,105 @@
                         class="chart-title">其他信息</h4></a></div>
                 以列表的形式展示，JVM的名称、JVM参数、JDK的版本、运行时间，操作系统的名称和版本，编译器的名称、总编译时间
             </div>
+            JVM的名称：<div id="jvmName"></div>，
+            操作系统的名称：<div id="osName"></div>，
+            编译器的名称：<div id="compilerName"></div>，
+            启动类路径：<div id="bootClassPath"></div>，
+            类路径：<div id="classPath"></div>，
+            JVM参数：<div id="inputArguments"></div>，
+            启动时间：<div id="jvmStartTime"></div>。
+
         </div>
     </div>
 </div>
 <script type="text/javascript" src="./resource/jquery.js"></script>
+<script>
+    // 基于准备好的dom，初始化echarts实例
+    var cpuChart = echarts.init(document.getElementById('cpu'));
+    var hostMemChart = echarts.init(document.getElementById('hostMemRatio'));
+    var jvmChart = echarts.init(document.getElementById('jvmMem'));
+    var heapChart = echarts.init(document.getElementById('heapMem'));
+    var nonHeapChart = echarts.init(document.getElementById('nonHeapMem'));
+    var classChart = echarts.init(document.getElementById('class'));
+    var threadChart = echarts.init(document.getElementById('thread'));
+    var gcCountChart = echarts.init(document.getElementById('gcCount'));
+    var gcTimeChart = echarts.init(document.getElementById('gcTime'));
+
+    //CPU信息
+    var cpuParams=requesthostMem();
+    var cpuData = [];
+    var jvmCpuData = [];
+    var availableProcessors = requestAvailableProcessors();
+    //主机内存信息 hostMemRatio
+    var physicalMemoryRatio = [];
+    var swapSpaceRatio = [];
+    var physicalMemory = cpuParams[0];
+    var swapSpace = cpuParams[1];
+    //JVM内存情况
+    var heapUsedMemory = [];
+    var heapCommittedMemory = [];
+    var nonHeapUsedMemory = [];
+    var nonHeapCommittedMemory = [];
+    var committedVirtualMemory = [];
+    //堆内存情况 heapMem
+    var edenSpaceUsedMemory = [];
+    var survivorSpaceUsedMemory = [];
+    var oldGenUsedMemory = [];
+    //非堆内存情况 nonHeapMem
+    var codeCacheUsedMemory = [];
+    var metaspaceUsedMemory = [];
+    var compressedClassSpaceUsedMemory = [];
+    //类信息
+    var classParams=requesttotalLoadedandUnloadedClassInfo();
+    var loadedClassCount = [];
+    var totalLoadedClassCount = classParams[0];
+    var unloadedClassCount = classParams[1];
+    //线程信息
+    var threadParams=requestPeakandtotalStartedThreadInfo();
+    var threadCount = [];
+    var deadlockedThreadsNum = [];
+    var monitorDeadlockedThreadsNum = [];
+    var peakThreadCount = threadParams[0];
+    var totalStartedThreadCount = threadParams[1];
+    //GC信息
+    var gcParams=requestCollectorInfo();
+    var ygcName=gcParams[0];
+    var ygcMemoryPoolNames =gcParams[1];
+    var ogcName=gcParams[2];
+    var ogcMemoryPoolNames =gcParams[3];
+    var ygcCount=[];
+    var ygcTime=[];
+    var ogcCount=[];
+    var ogcTime=[];
+    //其他信息
+    var otherParams=requestRuntimeInfo();
+    var bootClassPath = classParams[2];
+    var classPath = classParams[3];
+    var jvmName=otherParams[0];
+    var osName=otherParams[1];
+    var compilerName=otherParams[2];
+    var inputArguments=otherParams[3];
+    var jvmStartTime=otherParams[4];
+
+    var bootClassPathDIV = document.getElementById("bootClassPath");
+    var classPathDIV = document.getElementById("classPath");
+    var jvmNameDIV = document.getElementById("jvmName");
+    var osNameDIV = document.getElementById("osName");
+    var compilerNameDIV = document.getElementById("compilerName");
+    var inputArgumentsDIV = document.getElementById("inputArguments");
+    var jvmStartTimeDIV = document.getElementById("jvmStartTime");
+
+    bootClassPathDIV.innerHTML = bootClassPath;
+    classPathDIV.innerHTML = classPath;
+    jvmNameDIV.innerHTML = jvmName;
+    osNameDIV.innerHTML = osName;
+    compilerNameDIV.innerHTML = compilerName;
+    inputArgumentsDIV.innerHTML = inputArguments;
+    jvmStartTimeDIV.innerHTML = jvmStartTime;
+
+    initDisplay();
+    beginDisplay();
+</script>
 <script type="text/javascript" src="./resource/bootstrap.js"></script>
 <!--lodash是一套工具库，内部封装了很多字符串、数组、对象等常见数据类型的处理函数。-->
 <!--<script type="text/javascript" src="./resource/lodash.js"></script>-->
