@@ -6,16 +6,18 @@ public class XiaoQiangRetryInfo {
 
     private int retryCount;
     private int retryDelay;
+    private  boolean onlyMyPackage;
     private boolean classAnnotationed;
     private boolean methodAnnotationed;
     private Map<String,XiaoQiangMethodRetryInfo> methodsInfo;
 
-    public XiaoQiangRetryInfo(int retryCount,int retryDelay,boolean classAnnotationed) {
+    public XiaoQiangRetryInfo(int retryCount,int retryDelay,boolean classAnnotationed,boolean onlyMyPackage) {
         this.classAnnotationed = classAnnotationed;
         this.methodsInfo = null;
         this.methodAnnotationed = false;
         this.retryCount=retryCount;
         this.retryDelay=retryDelay;
+        this.onlyMyPackage=onlyMyPackage;
     }
 
     public XiaoQiangRetryInfo(Map<String,XiaoQiangMethodRetryInfo> methodsInfo) {
@@ -54,6 +56,14 @@ public class XiaoQiangRetryInfo {
 
     public void setMethodAnnotationed(boolean methodAnnotationed) {
         this.methodAnnotationed = methodAnnotationed;
+    }
+
+    public boolean isOnlyMyPackage() {
+        return onlyMyPackage;
+    }
+
+    public void setOnlyMyPackage(boolean onlyMyPackage) {
+        this.onlyMyPackage = onlyMyPackage;
     }
 
     public Map<String, XiaoQiangMethodRetryInfo> getMethodsInfo() {

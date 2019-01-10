@@ -18,6 +18,7 @@ public class XQEnhencer {
     private Random random = new Random();
     protected XiaoQiangRetryInfo xiaoQiangRetryInfo;
 
+
     //所有线程的异常都存放在这个map中，要能够定期清理过期的map，同时能够支持多线程并发异常。
     //确保随机数短时间内不会重叠
     private Map<Integer, Throwable> exMap = new HashMap<>();
@@ -92,7 +93,7 @@ public class XQEnhencer {
                     firstError = false;
                     exInt = random.nextInt();
                     //先打印，否则异常中的StackTrace不会记录上
-                    ExceptionInfoEntity excInfo=ExceptionUtil.PrintExceptionInfo(ex);
+                    ExceptionInfoEntity excInfo=ExceptionUtil.PrintExceptionInfo(ex,xiaoQiangRetryInfo.isOnlyMyPackage());
                     exceptionInfoEntites.add(excInfo);
                     exMap.put(exInt, ex);
                 } else {
@@ -102,7 +103,7 @@ public class XQEnhencer {
                     if (ExceptionUtil.ExceptionCompare(ex, throwable)) {
                         System.out.println("异常重复，不再打印和记录");
                     } else {
-                        ExceptionInfoEntity excInfo1 = ExceptionUtil.PrintExceptionInfo(ex);
+                        ExceptionInfoEntity excInfo1 = ExceptionUtil.PrintExceptionInfo(ex,xiaoQiangRetryInfo.isOnlyMyPackage());
                         exceptionInfoEntites.add(excInfo1);
                     }
                     if (i == 1) {

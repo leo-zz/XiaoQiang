@@ -10,7 +10,7 @@ public class XiaoQiangRetryConfigBean {
     private String proxyWay="cglib";
     private int retryCount=5;
     private int retryDelay=200;
-    private boolean onlyMyPackage=true;
+    private boolean onlyMyPackage;
     private static String myPackagePrefix;
 
     public XiaoQiangRetryConfigBean() {

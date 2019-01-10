@@ -16,8 +16,8 @@
     {
       "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
       "defaultValue": false,
-      "name": "xiaoqiang.monitor.classloader",
-      "description": "开启classloader的监控",
+      "name": "xiaoqiang.monitor.class",
+      "description": "开启class的监控",
       "type": "java.lang.Boolean"
     },
     {

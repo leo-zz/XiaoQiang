@@ -56,7 +56,7 @@ public class XiaoQiangRetryBeanPostProcessor implements BeanPostProcessor {
 
                 //1.3读取注解中的配置信息，并封装到xiaoQiangRetryInfo中
                 XiaoQiangRetry annotation = (XiaoQiangRetry) declaredAnnotation;
-                xiaoQiangRetryInfo = new XiaoQiangRetryInfo(prepareRetryCount(annotation), prepareRetryDelay(annotation), isClassAnnotation);
+                xiaoQiangRetryInfo = new XiaoQiangRetryInfo(prepareRetryCount(annotation), prepareRetryDelay(annotation), isClassAnnotation,xiaoQiangRetryConfigBean.isOnlyMyPackage());
 
                 //如果检测到类注解，那么直接结束此循环
                 break;

@@ -16,8 +16,6 @@ public class ExceptionUtil {
 
     //ctrl+shift+u 切换大小写
     private final static String[] IGNOREDSTACKPREFIX = {"java.lang.reflect", "sun.reflect"};
-//    private final static String[] FILTERSTACKPREFIX = {"com.xiaoq.testclient"};
-    private static boolean isFilter=true;
 
     /**
      * 用于比较两个异常内容是否一致
@@ -69,7 +67,7 @@ public class ExceptionUtil {
     }
 
     //打印异常信息：错误文本信息+精简后的栈帧+异常的suppressed+异常的cause
-    public static ExceptionInfoEntity PrintExceptionInfo(Throwable ex) {
+    public static ExceptionInfoEntity PrintExceptionInfo(Throwable ex,boolean onlyMyPackage) {
         Set<Throwable> sets=new HashSet<>();
         Set<StackTraceElement> stacks=new HashSet<>();
         sets.add(ex);
@@ -86,7 +84,7 @@ public class ExceptionUtil {
 
 
         //打印精简的栈帧，把动态代理相关的栈帧给去掉。
-        StackTraceElement[] stackElements = ExceptionSimplify(ex.getStackTrace(),stacks);
+        StackTraceElement[] stackElements = ExceptionSimplify(ex.getStackTrace(),stacks,onlyMyPackage);
         //TODO 可以设置，不输出到日志，在Web平台上查看。
         if (stackElements != null) {
             for (StackTraceElement traceElement : stackElements)
@@ -98,23 +96,23 @@ public class ExceptionUtil {
         Throwable[] exSuppressed = ex.getSuppressed();
 
         //判断异常是否存在suppressed，并维护到exceptionInfoEntity中
-        suppressExInfo(sets, stacks, exceptionInfoEntity, exSuppressed);
+        suppressExInfo(sets, stacks, exceptionInfoEntity, exSuppressed,onlyMyPackage);
 
         //打印异常的cause
         Throwable cause = ex.getCause();
         if(cause!=null){
-            ExceptionInfoEntity causeInfo = PrintCauseAndSuppressedInfo(cause, sets, "Caused by:  ", stacks);
+            ExceptionInfoEntity causeInfo = PrintCauseAndSuppressedInfo(cause, sets, "Caused by:  ", stacks,onlyMyPackage);
             exceptionInfoEntity.setCauseException(causeInfo);
         }
 
         return exceptionInfoEntity;
     }
 
-    private static void suppressExInfo(Set<Throwable> sets, Set<StackTraceElement> stacks, ExceptionInfoEntity exceptionInfoEntity, Throwable[] exSuppressed) {
+    private static void suppressExInfo(Set<Throwable> sets, Set<StackTraceElement> stacks, ExceptionInfoEntity exceptionInfoEntity, Throwable[] exSuppressed,boolean onlyMyPackage) {
         if(exSuppressed.length>0){
             List<ExceptionInfoEntity> exs = new ArrayList<>(exSuppressed.length);
             for(Throwable exT:exSuppressed){
-                ExceptionInfoEntity suppressedEx=PrintCauseAndSuppressedInfo(exT,sets,"Suppressed:  ",stacks);
+                ExceptionInfoEntity suppressedEx=PrintCauseAndSuppressedInfo(exT,sets,"Suppressed:  ",stacks,onlyMyPackage);
                 exs.add(suppressedEx);
             }
             exceptionInfoEntity.setSuppressedExceptions(exs);
@@ -126,9 +124,10 @@ public class ExceptionUtil {
      * 去除重复的栈帧，使用StackTraceElement自带的equals方法。
      * 去掉无意义的栈帧，如包含动态代理&&
      * 20181226-只显示用户编写代码中的异常
+     * @onlyMyPackage 是否只打印启动类下代码的异常信息。
      *
      */
-    private static StackTraceElement[] ExceptionSimplify(StackTraceElement[] stackElements,Set<StackTraceElement> stacks) {
+    private static StackTraceElement[] ExceptionSimplify(StackTraceElement[] stackElements,Set<StackTraceElement> stacks,boolean onlyMyPackage) {
         if (stackElements == null) return null;
 
         boolean isIgnored = false;
@@ -140,7 +139,7 @@ public class ExceptionUtil {
             String className = stack.getClassName();
             //NEW 1226：
             //匹配指定前缀再打印
-            if(isFilter){
+            if(onlyMyPackage){
                     if (!className.startsWith(XiaoQiangRetryConfigBean.getMyPackagePrefix())) {
                         isIgnored=true;
                         continue foreach;
@@ -181,7 +180,7 @@ public class ExceptionUtil {
     }
 
 
-    private static ExceptionInfoEntity PrintCauseAndSuppressedInfo(Throwable ex,Set<Throwable> sets,String str,Set<StackTraceElement> stacks){
+    private static ExceptionInfoEntity PrintCauseAndSuppressedInfo(Throwable ex,Set<Throwable> sets,String str,Set<StackTraceElement> stacks,boolean onlyMyPackage){
         ExceptionInfoEntity exceptionInfoEntity=null;
         if(!sets.contains(ex)){
             exceptionInfoEntity= new ExceptionInfoEntity();
@@ -197,7 +196,7 @@ public class ExceptionUtil {
             exceptionInfoEntity.setExceptionClassName(exClassName);
 
             //打印精简的栈帧，把动态代理相关的栈帧给去掉。
-            StackTraceElement[] stackElements = ExceptionSimplify(ex.getStackTrace(),stacks);
+            StackTraceElement[] stackElements = ExceptionSimplify(ex.getStackTrace(),stacks,onlyMyPackage);
             exceptionInfoEntity.setSimplileStackElements(stackElements);
             if (stackElements != null) {
                 for (StackTraceElement traceElement : stackElements)
@@ -208,46 +207,15 @@ public class ExceptionUtil {
             Throwable[] exSuppressed = ex.getSuppressed();
 
             //判断异常是否存在suppressed，并维护到exceptionInfoEntity中
-            suppressExInfo(sets, stacks, exceptionInfoEntity, exSuppressed);
+            suppressExInfo(sets, stacks, exceptionInfoEntity, exSuppressed,onlyMyPackage);
 
             //打印异常的cause
             Throwable cause = ex.getCause();
             if(cause!=null){
-                ExceptionInfoEntity causeInfo = PrintCauseAndSuppressedInfo(cause, sets, "Caused by:  ", stacks);
+                ExceptionInfoEntity causeInfo = PrintCauseAndSuppressedInfo(cause, sets, "Caused by:  ", stacks,onlyMyPackage);
                 exceptionInfoEntity.setCauseException(causeInfo);
             }
         }
         return exceptionInfoEntity;
     }
-//    private static void PrintSuppressedInfo(Throwable ex,Set<Throwable> sets,String str){
-//        if(!sets.contains(ex)){
-//            sets.add(ex);
-//
-//        }
-//
-//        //打印文本信息
-//        String message = ex.getMessage();
-//        if (message != null & !message.equals("")) {
-//            System.out.println(str+ex.getClass().getName() + ": " + message);
-//        }
-//
-//
-//        //打印精简的栈帧，把动态代理相关的栈帧给去掉。
-//        StackTraceElement[] stackElements = ExceptionSimplify(ex.getStackTrace());
-//        if (stackElements != null) {
-//            for (StackTraceElement traceElement : stackElements)
-//                System.out.println("\tat " + traceElement);
-//        }
-//        //打印异常的suppressed
-//        Throwable[] exSuppressed = ex.getSuppressed();
-//        for(Throwable exT:exSuppressed){
-//            PrintSuppressedInfo(exT,sets);
-//        }
-//
-//        //打印异常的cause
-//        Throwable cause = ex.getCause();
-//        if(cause!=null){
-//            PrintCauseInfo(cause,sets);
-//        }
-//    }
 }
