@@ -1,8 +1,5 @@
 package com.xiaoqiang.client.retry;
 
-import com.xiaoqiang.client.configuration.XiaoQiangRetryConfigBean;
-import com.xiaoqiang.client.postprocessor.XiaoQiangRetryBeanPostProcessor;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 

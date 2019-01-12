@@ -10,6 +10,11 @@
       "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangRetryConfigBean",
       "name": "xiaoqiang.retry",
       "type": "com.xiaoqiang.client.configuration.XiaoQiangRetryConfigBean"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangConfigBean",
+      "name": "xiaoqiang",
+      "type": "com.xiaoqiang.client.configuration.XiaoQiangConfigBean"
     }
   ],
   "properties": [
@@ -82,6 +87,13 @@
       "name": "xiaoqiang.retry.onlymypackage",
       "description": "只打印用户类中的异常信息",
       "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangConfigBean",
+      "defaultValue": "",
+      "name": "xiaoqiang.xiaoQiangURL",
+      "description": "设置Server端的URL",
+      "type": "java.lang.String"
     }
   ]
 }

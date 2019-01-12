@@ -3,6 +3,9 @@ package com.xiaoqiang.client.configuration;
 import com.xiaoqiang.client.controller.ExceptionController;
 import com.xiaoqiang.client.controller.MonitorController;
 import com.xiaoqiang.client.postprocessor.XiaoQiangRetryBeanPostProcessor;
+import com.xiaoqiang.client.util.XiaoQiangHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,9 +18,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ConditionalOnBean(XiaoQiangMarkerConfiguration.Marker.class)
 public class XiaoQiangAutoConfiguration extends WebMvcConfigurerAdapter {
 
-//    private ConfigurableEnvironment env;
-//    //RelaxedPropertyResolver在2.0版本的SpringBoot中不存在
-//    private RelaxedPropertyResolver propertyResolver;
+
+    //注意@Value中# 与 $的区别。
+    // #表示SPEL表达式，主要就是创建一个对象，然后通过对象获取值。
+    // $是占位符，表示属性值。
+    @Value("${xiaoqiang.xiaoQiangURL}")
+    private String  xiaoQiangURL;
+
 
     /**
      * 注入bean类的方式
@@ -36,6 +43,10 @@ public class XiaoQiangAutoConfiguration extends WebMvcConfigurerAdapter {
         return new ExceptionController();
     }
 
+    @Bean
+    public XiaoQiangHttpClient XiaoQiangHttpClient(){
+        return new XiaoQiangHttpClient(xiaoQiangURL);
+    }
 
     //循序跨域访问
     @Override

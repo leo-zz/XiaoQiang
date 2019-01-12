@@ -1,7 +1,5 @@
 package com.xiaoqiang.client.retry;
 
-import com.xiaoqiang.client.configuration.XiaoQiangRetryConfigBean;
-import com.xiaoqiang.client.postprocessor.XiaoQiangRetryBeanPostProcessor;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
