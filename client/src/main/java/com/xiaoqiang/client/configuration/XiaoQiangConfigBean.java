@@ -9,13 +9,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class XiaoQiangConfigBean {
     static final String PREFIX = "xiaoqiang";
     private String[]  xiaoQiangURLs=null;
-    private String  xiaoQiangURL;
+    private String  xiaoQiangServerURL;
     private String instanceName;
 
 
     public String[] getXiaoQiangURLs() {
         if(xiaoQiangURLs==null){
-            xiaoQiangURLs=this.xiaoQiangURL.trim().split(",");
+            xiaoQiangURLs=this.xiaoQiangServerURL.trim().split(",");
         }
         return xiaoQiangURLs;
     }
@@ -33,10 +33,10 @@ public class XiaoQiangConfigBean {
     }
 
     public String getXiaoQiangURL() {
-        return xiaoQiangURL;
+        return xiaoQiangServerURL;
     }
 
     public void setXiaoQiangURL(String xiaoQiangURL) {
-        this.xiaoQiangURL = xiaoQiangURL;
+        this.xiaoQiangServerURL = xiaoQiangURL;
     }
 }

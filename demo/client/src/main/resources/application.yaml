@@ -1,17 +1,8 @@
-#xiaoqiang:
-#  client:
-#    classloader: true
-#    cpu: true
-#    gc: false
-#    memory: true
-#    runtime: true
-#    thread: true
-#    retryCount: 3
-#    retryDelay: 500
-
 xiaoqiang:
+  xiaoQiangServerURL: localhost:5140
+  instanceName: xiaoqTest
   monitor:
-    classloader: true
+    class: true
     cpu: true
     gc: true
     memory: true
@@ -21,6 +12,5 @@ xiaoqiang:
     Count: 3
     Delay: 500
     onlyMyPackage: false
-  xiaoQiangURL: localhost:5140
-  instanceName: xiaoqTest
+
 

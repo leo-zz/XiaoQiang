@@ -91,7 +91,7 @@
     {
       "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangConfigBean",
       "defaultValue": "",
-      "name": "xiaoqiang.xiaoQiangURL",
+      "name": "xiaoqiang.xiaoQiangServerURL",
       "description": "设置Server端的URL",
       "type": "java.lang.String"
     },
