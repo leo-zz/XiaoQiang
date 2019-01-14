@@ -28,7 +28,7 @@
 
 ### Hello XiaoQiang!
 
-- ##### 1. 项目构建与本地发布
+- #### 1. 项目构建与本地发布
 
   ```
   $ git clone git@github.com:leo-zz/XiaoQiang.git
@@ -41,9 +41,9 @@
   $ mvn install
   ```
 
-- ##### 2. Client端的使用
+- #### 2. Client端的使用
 
-  - ###### 2.1 pom依赖的引入
+  - ##### 2.1 pom依赖的引入
 
   ```xml
   <dependency>
@@ -53,7 +53,7 @@
   </dependency>
   ```
 
-  - ###### 2.2 yaml参数配置
+  - ##### 2.2 yaml参数配置
 
   ```yaml
   xiaoqiang:
@@ -72,7 +72,7 @@
       onlyMyPackage: false
   ```
 
-  - ###### 2.3 注解配置
+  - ##### 2.3 注解配置
 
     - @EnableXiaoQiangClient
 
@@ -82,17 +82,17 @@
 
     ​        在类上或方法上增加注解@XiaoQiangRetry，声明类中所有方法或指定方法开启异常的监控和重试管理。**重试方法要求具备幂等特性，否则方法的重复执行会影响业务逻辑。**
 
-  - ###### 2.4 启动使用
+  - ##### 2.4 启动使用
 
-    ​	以CPU监控信息为例，启动http://localhost:8080/monitor/cpu可以访问该JVM的CPU数据。同理，通过“http://localhost:8080/monitor/class”、“http://localhost:8080/monitor/gc”、“http://localhost:8080/monitor/memory”、“http://localhost:8080/monitor/runtime”、“http://localhost:8080/monitor/thread”，可以分别访问类、垃圾回收、内存、运行时数据区、线程相关的信息。
+    ​	以CPU监控信息为例，启动“http://localhost:8080/monitor/cpu” 可以访问该JVM的CPU数据。同理，通过“http://localhost:8080/monitor/class”、 “http://localhost:8080/monitor/gc”等链接，可以分别访问类、垃圾回收、内存、运行时数据区、线程相关的信息。
 
-- ##### 3. Server端的使用
+- #### 3. Server端的使用
 
-  - ###### 3.1 新建SpringBoot项目
+  - ##### 3.1 新建SpringBoot项目
 
     ​	新建maven项目。
 
-  - ###### 3.2 pom依赖的引入
+  - ##### 3.2 pom依赖的引入
 
     ```xml
     <dependency>
@@ -102,20 +102,20 @@
     </dependency>
     ```
 
-  - ###### 3.3 yaml参数配置
+  - ##### 3.3 yaml参数配置
 
     ```
     server:
       port: 5140
     ```
 
-  - ###### 3.4 注解配置
+  - ##### 3.4 注解配置
 
     - @EnableXiaoQiangServer
 
     ​        在启动类上增加注解@EnableXiaoQiangServer，声明该项目为XiaoQiangServer组件，可以实现注册Client的JVM信息、方法异常信息的监控和管理。
 
-  - ###### 3.5 开始使用
+  - ##### 3.5 开始使用
 
     ​	访问http://localhost:5140/ 可以访问XiaoQiang的监控主页。
 
