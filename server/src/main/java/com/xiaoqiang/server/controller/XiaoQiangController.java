@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -29,38 +30,44 @@ public class XiaoQiangController {
     @Value("classpath:xiaoqiang-ui/monitor.html")
     Resource indexHtml;
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public HttpResult clientRegister(@RequestParam("port") int port, @RequestParam("instanceName") String name, HttpServletRequest req){
-        String remoteHost = req.getRemoteHost();
-        int remotePort = req.getRemotePort();
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public HttpResult clientRegister(@RequestParam("port") int port, @RequestParam("instanceName") String name, HttpServletRequest req) {
         String remoteAddr = req.getRemoteAddr();
-        System.out.println(" port:  "+port);
-        System.out.println(" remoteAddr:  "+remoteAddr);
-        clientsCaches.put(name,new ClientAdd(remoteAddr,remotePort));
-        HttpResult result = new HttpResult();
-        result.setResult(true);
-        return result;
+        ClientAdd clientAdd = new ClientAdd(remoteAddr, port, name);
+        clientsCaches.put(name, clientAdd);
+        System.out.println("client：" + name + "进行注册，信息为：" + clientAdd);
+        return new HttpResult(true);
     }
 
-    @RequestMapping(value = "/unregister",method = RequestMethod.POST)
-    public HttpResult clientUnRegister(){
-        HttpResult result = new HttpResult();
-        result.setResult(true);
-        return result;
+    @RequestMapping(value = "/unregister", method = RequestMethod.POST)
+    public HttpResult clientUnRegister(@RequestParam("instanceName") String name, HttpServletRequest req) {
+        ClientAdd clientAdd = clientsCaches.get(name);
+        if (clientAdd != null) {
+            clientsCaches.remove(name);
+        }
+        System.out.println("client：" + name + "取消注册");
+        return new HttpResult(true);
     }
 
-    @RequestMapping(value = "/heartbeat",method = RequestMethod.POST)
-    public HttpResult clientHeartBeat(){
-        HttpResult result = new HttpResult();
-        result.setResult(true);
-        return result;
+    //TODO 考虑客户没有注册，直接发送心跳的情况
+    @RequestMapping(value = "/heartbeat", method = RequestMethod.POST)
+    public HttpResult clientHeartBeat(@RequestParam("port") int port, @RequestParam("instanceName") String name, HttpServletRequest req) {
+        ClientAdd clientAdd = clientsCaches.get(name);
+        if(clientAdd==null){
+            String remoteAddr = req.getRemoteAddr();
+            clientAdd = new ClientAdd(remoteAddr, port, name);
+        }
+        clientAdd.setLastConnTime(System.currentTimeMillis());
+        clientsCaches.put(name, clientAdd);
+        System.out.println("更新client：" + name + "，通信时间:" + new Date(clientAdd.getLastConnTime()));
+        return new HttpResult(true);
     }
 
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Resource> index(HttpServletRequest request, Map<String, Object> model) {
 
-        return ((ResponseEntity.BodyBuilder)ResponseEntity.ok().cacheControl(CacheControl.maxAge(1L, TimeUnit.MINUTES))).body(this.indexHtml);
+        return ((ResponseEntity.BodyBuilder) ResponseEntity.ok().cacheControl(CacheControl.maxAge(1L, TimeUnit.MINUTES))).body(this.indexHtml);
     }
 
 }

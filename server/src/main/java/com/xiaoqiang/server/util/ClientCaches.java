@@ -6,5 +6,5 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientCaches {
-    public static Map<String,ClientAdd> clientsCaches=new ConcurrentHashMap<>();
+    public static Map<String,ClientAdd> clientsCaches=new ConcurrentHashMap<>(30);
 }
