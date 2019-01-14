@@ -94,6 +94,13 @@
       "name": "xiaoqiang.xiaoQiangURL",
       "description": "设置Server端的URL",
       "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangConfigBean",
+      "defaultValue": "",
+      "name": "xiaoqiang.instanceName",
+      "description": "设置Client的名称",
+      "type": "java.lang.String"
     }
   ]
 }

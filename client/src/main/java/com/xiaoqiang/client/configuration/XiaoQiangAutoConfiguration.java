@@ -22,8 +22,9 @@ public class XiaoQiangAutoConfiguration extends WebMvcConfigurerAdapter {
     //注意@Value中# 与 $的区别。
     // #表示SPEL表达式，主要就是创建一个对象，然后通过对象获取值。
     // $是占位符，表示属性值。
-    @Value("${xiaoqiang.xiaoQiangURL}")
-    private String  xiaoQiangURL;
+//    @Value("${xiaoqiang.xiaoQiangURL}")
+//    private String  xiaoQiangURL;
+
 
 
     /**
@@ -45,7 +46,7 @@ public class XiaoQiangAutoConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean
     public XiaoQiangHttpClient XiaoQiangHttpClient(){
-        return new XiaoQiangHttpClient(xiaoQiangURL);
+        return new XiaoQiangHttpClient();
     }
 
     //循序跨域访问

@@ -7,6 +7,7 @@ public class XiaoQiangConfigBean {
     static final String PREFIX = "xiaoqiang";
     private String[]  xiaoQiangURLs;
     private String  xiaoQiangURL;
+    private String instanceName;
 
     public XiaoQiangConfigBean(String xiaoQiangURL) {
         this.xiaoQiangURL = xiaoQiangURL;
@@ -19,5 +20,13 @@ public class XiaoQiangConfigBean {
 
     public void setXiaoQiangURLs(String[] xiaoQiangURLs) {
         this.xiaoQiangURLs = xiaoQiangURLs;
+    }
+
+    public String getInstanceName() {
+        return instanceName;
+    }
+
+    public void setInstanceName(String instanceName) {
+        this.instanceName = instanceName;
     }
 }
