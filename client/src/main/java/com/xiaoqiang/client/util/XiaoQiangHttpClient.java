@@ -1,7 +1,9 @@
 package com.xiaoqiang.client.util;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiaoqiang.client.configuration.XiaoQiangConfigBean;
+import com.xiaoqiang.client.entity.HttpResult;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
@@ -40,37 +42,34 @@ public class XiaoQiangHttpClient {
     private int  port;
 
     @Autowired
-    XiaoQiangConfigBean xiaoQiangConfigBean;
-
-    List<NameValuePair> nvps=null;
+    private  XiaoQiangConfigBean xiaoQiangConfigBean;
+    private List<NameValuePair> nvps=null;
     private String[] xiaoQiangURLs;
     private CloseableHttpClient httpCilent = null;
     private RequestConfig requestConfig = null;
     private ThreadPoolExecutor httpConnPool = null;
+    private ObjectMapper objectMapper;
     private boolean registerFlag = false;
     private boolean heartBeatFlag = false;
 
     @PostConstruct
     public void connectServer() {
-
         httpClientInit();
-
-        if (register()) {
-            new Thread(() -> {
-                System.out.println();
+        if (register()&&httpConnPool!=null) {
+            httpConnPool.execute(() -> {
+                System.out.println(Thread.currentThread().getName()+"开始发送心跳。");
                 heartbeat();
-            }).start();
+            });
         }
-        ;
-
     }
 
     private void httpClientInit() {
         //TODO 增加格式校验，域名或IP
+        objectMapper = new ObjectMapper();
         xiaoQiangURLs = xiaoQiangConfigBean.getXiaoQiangURLs()[0].trim().split(",");
         httpCilent = HttpClients.createDefault();
         //queue不能为null
-        httpConnPool = new ThreadPoolExecutor(1, 1, 180, TimeUnit.SECONDS,  new LinkedBlockingDeque<Runnable>());
+        httpConnPool = new ThreadPoolExecutor(1, 1, 180, TimeUnit.SECONDS,  new LinkedBlockingDeque<Runnable>(1));
         requestConfig = RequestConfig.custom().
                 setConnectTimeout(180 * 1000).setConnectionRequestTimeout(180 * 1000)
                 .setSocketTimeout(180 * 1000).setRedirectsEnabled(true).build();
@@ -112,13 +111,18 @@ public class XiaoQiangHttpClient {
                         stringBuilder.append(new String(bytes, 0, read, "utf-8"));
                     }
                 } while (read != -1);
-                System.out.println("收到响应的内容：" + stringBuilder.toString());
-                registerFlag = true;
+                //使用Web项目中的jackson将json字符串转java对象，
+                // 参考：https://www.cnblogs.com/winner-0715/p/6109225.html
+                String content = stringBuilder.toString();
+
+                HttpResult httpResult = objectMapper.readValue(content, HttpResult.class);
+                boolean result = httpResult.isResult();
+                registerFlag = result;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return count < 100 && !registerFlag;
+        return count < 100 && registerFlag;
     }
 
 
