@@ -80,6 +80,12 @@ public class XiaoQiangAutoConfiguration extends WebMvcConfigurerAdapter {
         public XiaoQiangRetryConfigBean xiaoQiangRetryConfigBean() {
             return new XiaoQiangRetryConfigBean();
         }
+
+        @Bean
+        @ConditionalOnMissingBean
+        public XiaoQiangConfigBean xiaoQiangConfigBean() {
+            return new XiaoQiangConfigBean();
+        }
     }
 
 }

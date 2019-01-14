@@ -22,4 +22,5 @@ xiaoqiang:
     Delay: 500
     onlyMyPackage: false
   xiaoQiangURL: localhost:5140
+  instanceName: xiaoqTest
 

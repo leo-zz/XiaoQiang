@@ -2,19 +2,21 @@ package com.xiaoqiang.client.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ *  Spring在以@Bean的方式创建对象（执行构造方法）后会自动注入属性
+ */
 @ConfigurationProperties(XiaoQiangConfigBean.PREFIX)
 public class XiaoQiangConfigBean {
     static final String PREFIX = "xiaoqiang";
-    private String[]  xiaoQiangURLs;
+    private String[]  xiaoQiangURLs=null;
     private String  xiaoQiangURL;
     private String instanceName;
 
-    public XiaoQiangConfigBean(String xiaoQiangURL) {
-        this.xiaoQiangURL = xiaoQiangURL;
-        this.xiaoQiangURLs=xiaoQiangURL.trim().split(",");
-    }
 
     public String[] getXiaoQiangURLs() {
+        if(xiaoQiangURLs==null){
+            xiaoQiangURLs=this.xiaoQiangURL.trim().split(",");
+        }
         return xiaoQiangURLs;
     }
 
@@ -28,5 +30,13 @@ public class XiaoQiangConfigBean {
 
     public void setInstanceName(String instanceName) {
         this.instanceName = instanceName;
+    }
+
+    public String getXiaoQiangURL() {
+        return xiaoQiangURL;
+    }
+
+    public void setXiaoQiangURL(String xiaoQiangURL) {
+        this.xiaoQiangURL = xiaoQiangURL;
     }
 }

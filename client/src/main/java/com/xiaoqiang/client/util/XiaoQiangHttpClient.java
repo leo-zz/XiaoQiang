@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -49,18 +50,34 @@ public class XiaoQiangHttpClient {
     private boolean registerFlag = false;
     private boolean heartBeatFlag = false;
 
-    public XiaoQiangHttpClient() {
+    @PostConstruct
+    public void connectServer() {
+
+        httpClientInit();
+
+        if (register()) {
+            new Thread(() -> {
+                System.out.println();
+                heartbeat();
+            }).start();
+        }
+        ;
+
+    }
+
+    private void httpClientInit() {
         //TODO 增加格式校验，域名或IP
         xiaoQiangURLs = xiaoQiangConfigBean.getXiaoQiangURLs()[0].trim().split(",");
         httpCilent = HttpClients.createDefault();
-        httpConnPool = new ThreadPoolExecutor(1, 1, 180, TimeUnit.SECONDS, null);
+        //queue不能为null
+        httpConnPool = new ThreadPoolExecutor(1, 1, 180, TimeUnit.SECONDS,  new LinkedBlockingDeque<Runnable>());
         requestConfig = RequestConfig.custom().
                 setConnectTimeout(180 * 1000).setConnectionRequestTimeout(180 * 1000)
                 .setSocketTimeout(180 * 1000).setRedirectsEnabled(true).build();
 
         nvps = new ArrayList<NameValuePair>();
         BasicNameValuePair portParam = new BasicNameValuePair("port", String.valueOf(this.port));
-        BasicNameValuePair instaceNameParam = new BasicNameValuePair("instaceName", String.valueOf(this.xiaoQiangConfigBean.getInstanceName()));
+        BasicNameValuePair instaceNameParam = new BasicNameValuePair("instanceName", String.valueOf(this.xiaoQiangConfigBean.getInstanceName()));
         nvps.add(portParam);
         nvps.add(instaceNameParam);
     }
@@ -168,19 +185,6 @@ public class XiaoQiangHttpClient {
             }
         }
         return false;
-    }
-
-    @PostConstruct
-    public void connectServer() {
-
-        if (register()) {
-            new Thread(() -> {
-                System.out.println();
-                heartbeat();
-            }).start();
-        }
-        ;
-
     }
 
     //关闭时关闭Http连接，回收服务器端的资源。

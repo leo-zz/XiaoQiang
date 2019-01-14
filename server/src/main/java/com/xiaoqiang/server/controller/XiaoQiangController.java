@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -19,6 +20,7 @@ import static com.xiaoqiang.server.util.ClientCaches.clientsCaches;
 //不生效，仅仅是一个注明？
 //@Controller
 //如果未配置xiaoqiang.server.path，默认是/
+@ResponseBody
 @RequestMapping("${xiaoqiang.server.path:/}")
 public class XiaoQiangController {
     /**
@@ -41,13 +43,17 @@ public class XiaoQiangController {
     }
 
     @RequestMapping(value = "/unregister",method = RequestMethod.POST)
-    public boolean clientUnRegister(){
-        return false;
+    public HttpResult clientUnRegister(){
+        HttpResult result = new HttpResult();
+        result.setResult(true);
+        return result;
     }
 
     @RequestMapping(value = "/heartbeat",method = RequestMethod.POST)
-    public boolean clientHeartBeat(){
-        return false;
+    public HttpResult clientHeartBeat(){
+        HttpResult result = new HttpResult();
+        result.setResult(true);
+        return result;
     }
 
 
