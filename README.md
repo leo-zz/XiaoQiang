@@ -84,7 +84,7 @@
 
   - ##### 2.4 启动使用
 
-    ​	以CPU监控信息为例，启动“http://localhost:8080/monitor/cpu” 可以访问该JVM的CPU数据。同理，通过“http://localhost:8080/monitor/class”、 “http://localhost:8080/monitor/gc”等链接，可以分别访问类、垃圾回收、内存、运行时数据区、线程相关的信息。
+    ​	以CPU监控信息为例，启动“http://localhost:8080/monitor/cpu” 可以访问该JVM的CPU数据。同理，通过“http://localhost:8080/monitor/class”、 “http://localhost:8080/monitor/gc” 等链接，可以分别访问类、垃圾回收、内存、运行时数据区、线程相关的信息。
 
 - #### 3. Server端的使用
 
