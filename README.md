@@ -60,7 +60,7 @@
     xiaoQiangServerURL: localhost:5140
     instanceName: xiaoqTest
     monitor:
-      class: true
+      clazz: true
       cpu: true
       gc: true
       memory: true
