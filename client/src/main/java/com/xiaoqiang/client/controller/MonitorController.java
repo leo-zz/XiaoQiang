@@ -40,7 +40,7 @@ public class MonitorController {
 
     @RequestMapping(value = "class", method = RequestMethod.GET)
         public ClassEntity getClassMonitor() {
-        return xiaoQiangMonitorConfigBean.isClazz() ? ClassMonitor.ClassLoadInfo() : new ClassEntity() ;
+        return xiaoQiangMonitorConfigBean.isClazz() ? ClassMonitor.ClassLoadInfo() : null ;
     }
 
     @RequestMapping(value = "cpu", method = RequestMethod.GET)

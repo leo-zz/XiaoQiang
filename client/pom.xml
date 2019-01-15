@@ -40,30 +40,6 @@
 
     <build>
         <plugins>
-            <!-- 通过mvn install 将构件发布到本地时提示找不到主程序类 -->
-            <!--<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                &lt;!&ndash;<configuration>&ndash;&gt;
-                &lt;!&ndash;<mainClass>${start-class}</mainClass>&ndash;&gt;
-                &lt;!&ndash;</configuration>&ndash;&gt;
-            </plugin>-->
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                    </archive>
-                </configuration>
-            </plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
