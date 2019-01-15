@@ -21,7 +21,7 @@
     {
       "sourceType": "com.xiaoqiang.client.configuration.XiaoQiangMonitorConfigBean",
       "defaultValue": false,
-      "name": "xiaoqiang.monitor.class",
+      "name": "xiaoqiang.monitor.clazz",
       "description": "开启class的监控",
       "type": "java.lang.Boolean"
     },

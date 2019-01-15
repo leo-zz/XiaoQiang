@@ -10,7 +10,8 @@ public class XiaoQiangMonitorConfigBean {
 
     static final String PREFIX = "xiaoqiang.monitor";
 
-    private boolean classloader = false;
+    //属性名为classloader，但配置中为class.
+    private boolean clazz = false;
     private boolean cpu = false;
     private boolean gc = false;
     private boolean  memory = false;
@@ -21,12 +22,12 @@ public class XiaoQiangMonitorConfigBean {
         return PREFIX;
     }
 
-    public boolean isClassloader() {
-        return classloader;
+    public boolean isClazz() {
+        return clazz;
     }
 
-    public void setClassloader(boolean classloader) {
-        this.classloader = classloader;
+    public void setClazz(boolean clazz) {
+        this.clazz = clazz;
     }
 
     public boolean isCpu() {

@@ -26,6 +26,9 @@ public class ClassEntity {
         this.classPath = classPath;
     }
 
+    public ClassEntity() {
+    }
+
     public int getLoadedClassCount() {
         return loadedClassCount;
     }
