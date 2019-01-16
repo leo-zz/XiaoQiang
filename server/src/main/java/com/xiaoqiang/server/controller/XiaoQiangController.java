@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.xiaoqiang.server.util.ClientCaches.clientsCaches;
@@ -27,7 +26,7 @@ public class XiaoQiangController {
     /**
      * 借鉴zipkin的实现方式
      */
-    @Value("classpath:xiaoqiang-ui/monitor.html")
+    @Value("classpath:xiaoqiang-ui/index.html")
     Resource indexHtml;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -43,24 +42,37 @@ public class XiaoQiangController {
     public HttpResult clientUnRegister(@RequestParam("instanceName") String name, HttpServletRequest req) {
         ClientAdd clientAdd = clientsCaches.get(name);
         if (clientAdd != null) {
-            clientsCaches.remove(name);
+            clientAdd.setActiveFlag(false);
+            clientsCaches.put(name, clientAdd);
         }
         System.out.println("client：" + name + "取消注册");
         return new HttpResult(true);
     }
 
-    //TODO 考虑客户没有注册，直接发送心跳的情况
+
     @RequestMapping(value = "/heartbeat", method = RequestMethod.POST)
     public HttpResult clientHeartBeat(@RequestParam("port") int port, @RequestParam("instanceName") String name, HttpServletRequest req) {
         ClientAdd clientAdd = clientsCaches.get(name);
+        //考虑客户没有注册，直接发送心跳的情况
         if(clientAdd==null){
             String remoteAddr = req.getRemoteAddr();
             clientAdd = new ClientAdd(remoteAddr, port, name);
         }
+        clientAdd.setActiveFlag(true);
         clientAdd.setLastConnTime(System.currentTimeMillis());
         clientsCaches.put(name, clientAdd);
         System.out.println("更新client：" + name + "，通信时间:" + new Date(clientAdd.getLastConnTime()));
         return new HttpResult(true);
+    }
+
+    @RequestMapping(value = "/clientlists", method = RequestMethod.POST)
+    public List<ClientAdd> clientLists(){
+        Set<String> keySet = clientsCaches.keySet();
+        ArrayList<ClientAdd> clientlists = new ArrayList<>(keySet.size());
+        keySet.forEach((key)->{
+            clientlists.add(clientsCaches.get(key));
+        });
+        return clientlists;
     }
 
 
