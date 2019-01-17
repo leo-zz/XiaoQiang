@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <!-- Required Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen"/>
+    <!--<link rel="stylesheet" type="text/css" href="css/text.css" media="screen"/>-->
+    <link rel="stylesheet" type="text/css" href="css/fluid.css" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="css/mws.style.css" media="screen"/>
+
+    <!-- Demo and Plugin Stylesheets -->
+    <!--<link rel="stylesheet" type="text/css" href="css/demo.css" media="screen"/>-->
+
+   <!-- <link rel="stylesheet" type="text/css" href="plugins/colorpicker/colorpicker.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="plugins/jimgareaselect/css/imgareaselect-default.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="plugins/fullcalendar/fullcalendar.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="plugins/fullcalendar/fullcalendar.print.css" media="print"/>
+    <link rel="stylesheet" type="text/css" href="plugins/tipsy/tipsy.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="plugins/sourcerer/Sourcerer-1.2.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="plugins/jgrowl/jquery.jgrowl.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="plugins/spinner/spinner.css" media="screen"/>-->
+<!--    <link rel="stylesheet" type="text/css" href="css/jui/jquery.ui.css" media="screen"/>-->
+
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="css/mws.theme.css" media="screen"/>
+
+    <!-- JavaScript Plugins -->
+
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+
+  <!--  <script type="text/javascript" src="plugins/jimgareaselect/jquery.imgareaselect.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery.dualListBox-1.3.min.js"></script>
+    <script type="text/javascript" src="plugins/jgrowl/jquery.jgrowl.js"></script>
+    <script type="text/javascript" src="plugins/jquery.filestyle.js"></script>
+    <script type="text/javascript" src="plugins/fullcalendar/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery.dataTables.js"></script>-->
+    <!--[if lt IE 9]>
+    <!--<script type="text/javascript" src="plugins/flot/excanvas.min.js"></script>-->
+    <![endif]-->
+    <!--<script type="text/javascript" src="plugins/flot/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="plugins/flot/jquery.flot.pie.min.js"></script>
+    <script type="text/javascript" src="plugins/flot/jquery.flot.stack.min.js"></script>
+    <script type="text/javascript" src="plugins/flot/jquery.flot.resize.min.js"></script>
+    <script type="text/javascript" src="plugins/colorpicker/colorpicker.js"></script>
+    <script type="text/javascript" src="plugins/tipsy/jquery.tipsy.js"></script>
+    <script type="text/javascript" src="plugins/sourcerer/Sourcerer-1.2.js"></script>
+    <script type="text/javascript" src="plugins/jquery.placeholder.js"></script>
+    <script type="text/javascript" src="plugins/jquery.validate.js"></script>
+    <script type="text/javascript" src="plugins/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="plugins/spinner/ui.spinner.js"></script>-->
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="js/mws.js"></script>
+    <script type="text/javascript" src="js/xiaoqiangmonitor.js"></script>
+    <script type="text/javascript" src="js/echarts.js"></script>
+
+
+    <title>XiaoQiang-UI</title>
+
+</head>
+
+<body>
+<!-- Header Wrapper -->
+<div id="mws-header" class="clearfix">
+
+    <!-- Logo Wrapper -->
+    <div id="mws-logo-container">
+        <div id="mws-logo-wrap">
+            <img src="images/logo.png"/>
+        </div>
+    </div>
+</div>
+
+<!-- Main Wrapper -->
+<div id="mws-wrapper">
+    <!-- Necessary markup, do not remove -->
+    <div id="mws-sidebar-stitch"></div>
+    <div id="mws-sidebar-bg"></div>
+
+    <!-- Sidebar Wrapper -->
+    <div id="mws-sidebar">
+
+        <!-- Main Navigation -->
+        <div id="mws-navigation">
+            <ul>
+                <li class="active"><a href="charts.html">JVM监控</a>
+                    <ul>
+                        <li><a href="#">主机信息监控</a></li>
+                        <li><a href="#">JVM内存监控</a></li>
+                        <li><a href="#">类与线程监控</a></li>
+                        <li><a href="#">GC监控</a></li>
+                    </ul>
+                </li>
+                <li><a href="table.html">方法异常监控</a></li>
+                <li><a href="typography.html">Typography</a></li>
+            </ul>
+        </div>
+        <!-- End Navigation -->
+
+    </div>
+
+
+    <!-- Container Wrapper -->
+    <div id="mws-container" class="clearfix">
+
+        <!-- Main Container -->
+        <div class="container">
+            <div class="mws-panel grid_8 mws-collapsible">
+                <div class="mws-panel-header">
+                    <span>XiaoQiang 客户端列表</span>
+                </div>
+                <div class="mws-panel-body">
+                    <table class="mws-table">
+                        <thead>
+                        <tr>
+                            <th>客户端名称</th>
+                            <th>IP地址</th>
+                            <th>端口号</th>
+                            <th>上次通信时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody id="clientlist"/>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_8 mws-collapsible">
+                <div class="mws-panel-header">
+                    <span>JVM信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <table class="mws-table">
+                        <thead>
+                        <tr>
+                            <th>JVM</th>
+                            <th>操作系统</th>
+                            <th>编译器</th>
+                            <th>启动时间</th>
+                            <th>JVM参数</th>
+                            <th>启动类路径</th>
+                            <th>普通类路径</th>
+                        </tr>
+                        </thead>
+                        <tbody id="jvmInfo"/>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_4">
+                <div class="mws-panel-header">
+                    <span>CPU信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="cpu" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_4">
+                <div class="mws-panel-header">
+                    <span >主机内存信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="hostMemRatio" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_4">
+                <div class="mws-panel-header">
+                    <span>堆内存信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="heapMem" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_4">
+                <div class="mws-panel-header">
+                    <span >非堆内存信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="nonHeapMem" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_4">
+                <div class="mws-panel-header">
+                    <span>类信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="class" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_4">
+                <div class="mws-panel-header">
+                    <span >线程信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="thread" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_4">
+                <div class="mws-panel-header">
+                    <span>GC次数信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="gcCount" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_4">
+                <div class="mws-panel-header">
+                    <span >GC耗时信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="gcTime" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_8">
+                <div class="mws-panel-header">
+                    <span >JVM内存信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="jvmMem" style="width:100%; height:300px; "></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mws-panel grid_8">
+                <div class="mws-panel-header">
+                    <span >异常信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="exChart" style="width:100%; height:600px; "></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Main Container -->
+    </div>
+    <!-- End Container Wrapper -->
+
+</div>
+<!-- End Main Wrapper -->
+
+<!-- 填充表格内容，请求Server的查询接口 -->
+<script type="text/javascript">
+  function format(d){
+        var reuslt="";
+        reuslt+=d.getFullYear()+"-";
+        reuslt+=(d.getMonth() + 1)+"-";
+        reuslt+= d.getDate();
+        reuslt+=" "+d.getHours()+":";
+        reuslt+=d.getMinutes()+":";
+        reuslt+=d.getSeconds();
+        return reuslt;
+    }
+
+    $.post("/clientlists", function (data, status) {
+        var content = "";
+        for (var index in data) {
+            console.log(index);
+            content += "<tr ><td>"
+                + data[index].instanceName
+                + "</td><td>"
+                + data[index].address + "</td><td>"
+                + data[index].port
+                + "</td><td>";
+            var time = format(new Date(data[index].lastConnTime));
+            content += time;
+            content += "</td><td>";
+            var active = "在线";
+            if (!data[index].activeFlag) {
+                active = "离线";
+            }
+            content += active;
+            content += "</td></tr>";
+        }
+        $("#clientlist").html(content);
+    }, "json");
+
+
+</script>
+
+<script>
+    clientInet="http://localhost:8080/";
+    // 基于准备好的dom，初始化echarts实例
+    var cpuChart = echarts.init(document.getElementById('cpu'));
+    var hostMemChart = echarts.init(document.getElementById('hostMemRatio'));
+    var jvmChart = echarts.init(document.getElementById('jvmMem'));
+    var heapChart = echarts.init(document.getElementById('heapMem'));
+    var nonHeapChart = echarts.init(document.getElementById('nonHeapMem'));
+    var classChart = echarts.init(document.getElementById('class'));
+    var threadChart = echarts.init(document.getElementById('thread'));
+    var gcCountChart = echarts.init(document.getElementById('gcCount'));
+    var gcTimeChart = echarts.init(document.getElementById('gcTime'));
+
+    //CPU信息
+    var cpuParams=requesthostMem();
+    var cpuData = [];
+    var jvmCpuData = [];
+    var availableProcessors = requestAvailableProcessors();
+    //主机内存信息 hostMemRatio
+    var physicalMemoryRatio = [];
+    var swapSpaceRatio = [];
+    var physicalMemory = cpuParams[0];
+    var swapSpace = cpuParams[1];
+    //JVM内存情况
+    var heapUsedMemory = [];
+    var heapCommittedMemory = [];
+    var nonHeapUsedMemory = [];
+    var nonHeapCommittedMemory = [];
+    var committedVirtualMemory = [];
+    //堆内存情况 heapMem
+    var edenSpaceUsedMemory = [];
+    var survivorSpaceUsedMemory = [];
+    var oldGenUsedMemory = [];
+    //非堆内存情况 nonHeapMem
+    var codeCacheUsedMemory = [];
+    var metaspaceUsedMemory = [];
+    var compressedClassSpaceUsedMemory = [];
+    //类信息
+    var classParams=requesttotalLoadedandUnloadedClassInfo();
+    var loadedClassCount = [];
+    var totalLoadedClassCount = classParams[0];
+    var unloadedClassCount = classParams[1];
+    //线程信息
+    var threadParams=requestPeakandtotalStartedThreadInfo();
+    var threadCount = [];
+    var deadlockedThreadsNum = [];
+    var monitorDeadlockedThreadsNum = [];
+    var peakThreadCount = threadParams[0];
+    var totalStartedThreadCount = threadParams[1];
+    //GC信息
+    var gcParams=requestCollectorInfo();
+    var ygcName=gcParams[0];
+    var ygcMemoryPoolNames =gcParams[1];
+    var ogcName=gcParams[2];
+    var ogcMemoryPoolNames =gcParams[3];
+    var ygcCount=[];
+    var ygcTime=[];
+    var ogcCount=[];
+    var ogcTime=[];
+    //其他信息
+    var otherParams=requestRuntimeInfo();
+    var bootClassPath = classParams[2];
+    var classPath = classParams[3];
+    var jvmName=otherParams[0];
+    var osName=otherParams[1];
+    var compilerName=otherParams[2];
+    var inputArguments=otherParams[3];
+    var jvmStartTime=otherParams[4];
+
+//    var bootClassPathDIV = document.getElementById("bootClassPath");
+//    var classPathDIV = document.getElementById("classPath");
+//    var jvmNameDIV = document.getElementById("jvmName");
+//    var osNameDIV = document.getElementById("osName");
+//    var compilerNameDIV = document.getElementById("compilerName");
+//    var inputArgumentsDIV = document.getElementById("inputArguments");
+//    var jvmStartTimeDIV = document.getElementById("jvmStartTime");
+//
+//    bootClassPathDIV.innerHTML = bootClassPath;
+//    classPathDIV.innerHTML = classPath;
+//    jvmNameDIV.innerHTML = jvmName;
+//    osNameDIV.innerHTML = osName;
+//    compilerNameDIV.innerHTML = compilerName;
+//    inputArgumentsDIV.innerHTML = inputArguments;
+//    jvmStartTimeDIV.innerHTML = jvmStartTime;
+
+    initDisplay();
+    beginDisplay();
+</script>
+</body>
+</html>
