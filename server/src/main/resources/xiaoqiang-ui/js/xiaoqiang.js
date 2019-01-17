@@ -823,8 +823,8 @@ function fillClientInfo() {
 function initParams(){
     var cpuParams = requesthostMem();
     availableProcessors = requestAvailableProcessors();
-    physicalMemory = cpuParams[0]/1024/1024;
-    swapSpace = cpuParams[1]/1024/1024;
+    physicalMemory = (cpuParams[0]/1024/1024/1024).toFixed(2);
+    swapSpace = (cpuParams[1]/1024/1024/1024).toFixed(2);
 
     var classParams = requesttotalLoadedandUnloadedClassInfo();
     totalLoadedClassCount = classParams[0];
