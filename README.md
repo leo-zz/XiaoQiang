@@ -16,15 +16,15 @@
 
 #####          主机CPU、内存的性能监控：
 
-![1547705967760](C:\Users\j2eeLe\AppData\Local\Temp\1547705967760.png)
+![1547705967760](F:\orange\cnblog\XQ\XiaoQiang\demo\pic\1547705967760.png)
 
 #####          JVM内存监控
 
-![1547706002731](C:\Users\j2eeLe\AppData\Local\Temp\1547706002731.png)
+![1547706002731](F:\orange\cnblog\XQ\XiaoQiang\demo\pic\1547706002731.png)
 
 #####          垃圾回收的监控
 
-![1547705940319](C:\Users\j2eeLe\AppData\Local\Temp\1547705940319.png)
+![1547705940319](F:\orange\cnblog\XQ\XiaoQiang\demo\pic\1547705940319.png)
 
 #####          方法异常的监控
 
