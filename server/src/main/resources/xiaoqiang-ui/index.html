@@ -208,12 +208,15 @@
 
 
 <script type="text/javascript">
-    <!-- End Main Wrapper充表格内容,请求Server的查询接口  -->
+    <!-- 请求clientlists查询接口，填充表格内容 -->
     var clientContent=fillClientInfo();
     $("#clientlist").html(clientContent);
+    var jvmInfo=$("#jvmInfo");
 
-    //TODO 能够手动切换client信息
-    clientInet = "http://localhost:8080/";
+    //TODO 能够手动切换client信息,默认显示第一个client的信息
+    var chooseInet = "http://localhost:8080/";
+
+
     // 基于准备好的dom，初始化echarts实例
     var cpuChart = echarts.init(document.getElementById('cpu'));
     var hostMemChart = echarts.init(document.getElementById('hostMemRatio'));
@@ -224,16 +227,17 @@
     var threadChart = echarts.init(document.getElementById('thread'));
     var gcCountChart = echarts.init(document.getElementById('gcCount'));
     var gcTimeChart = echarts.init(document.getElementById('gcTime'));
+
+    //创建参数
     //CPU信息
-    var cpuParams = requesthostMem();
     var cpuData = [];
     var jvmCpuData = [];
-    var availableProcessors = requestAvailableProcessors();
+    var availableProcessors ;
     //主机内存信息 hostMemRatio
     var physicalMemoryRatio = [];
     var swapSpaceRatio = [];
-    var physicalMemory = cpuParams[0];
-    var swapSpace = cpuParams[1];
+    var physicalMemory;
+    var swapSpace ;
     //JVM内存情况
     var heapUsedMemory = [];
     var heapCommittedMemory = [];
@@ -249,41 +253,45 @@
     var metaspaceUsedMemory = [];
     var compressedClassSpaceUsedMemory = [];
     //类信息
-    var classParams = requesttotalLoadedandUnloadedClassInfo();
     var loadedClassCount = [];
-    var totalLoadedClassCount = classParams[0];
-    var unloadedClassCount = classParams[1];
+    var totalLoadedClassCount;
+    var unloadedClassCount;
     //线程信息
-    var threadParams = requestPeakandtotalStartedThreadInfo();
     var threadCount = [];
     var deadlockedThreadsNum = [];
     var monitorDeadlockedThreadsNum = [];
-    var peakThreadCount = threadParams[0];
-    var totalStartedThreadCount = threadParams[1];
+    var peakThreadCount;
+    var totalStartedThreadCount;
     //GC信息
-    var gcParams = requestCollectorInfo();
-    var ygcName = gcParams[0];
-    var ygcMemoryPoolNames = gcParams[1];
-    var ogcName = gcParams[2];
-    var ogcMemoryPoolNames = gcParams[3];
+    var ygcName;
+    var ygcMemoryPoolNames;
+    var ogcName;
+    var ogcMemoryPoolNames ;
     var ygcCount = [];
     var ygcTime = [];
     var ogcCount = [];
     var ogcTime = [];
     //其他信息
-    var otherParams = requestRuntimeInfo();
-    var bootClassPath = classParams[2];
-    var classPath = classParams[3];
-    var jvmName = otherParams[0];
-    var osName = otherParams[1];
-    var compilerName = otherParams[2];
-    var inputArguments = otherParams[3];
-    var jvmStartTime = otherParams[4];
-    //拼接JVM信息的tbody
-    var jvmContent =fillJVMInfo();
-    $("#jvmInfo").html(jvmContent);
-    initDisplay();
-    beginDisplay();
+    var bootClassPath ;
+    var classPath ;
+    var jvmName;
+    var osName ;
+    var compilerName ;
+    var inputArguments ;
+    var jvmStartTime;
+
+    display();
+
+    function display(clientInet,jvmInfo) {
+        //初始化参数
+        initParams();
+        //拼接JVM信息的tbody
+        var jvmContent =fillJVMInfo();
+        jvmInfo.html(jvmContent);
+        initDisplay();
+        beginDisplay();
+    }
+
 </script>
 </body>
 </html>

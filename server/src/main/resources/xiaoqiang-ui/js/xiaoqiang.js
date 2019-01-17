@@ -1,4 +1,4 @@
-
+var clientInet;
 function initDisplay() {
 // 指定图表的配置项和数据
     cpuOption = {
@@ -807,6 +807,7 @@ function fillJVMInfo () {
 
 function fillClientInfo() {
     var content = "";
+    $.ajaxSettings.async = false;
     $.post("/clientlists", function (data, status) {
         for (var index in data) {
             console.log(index);
@@ -827,5 +828,37 @@ function fillClientInfo() {
             content += "</td></tr>";
         }
     }, "json");
+    $.ajaxSettings.async = true;
     return content;
+}
+
+function initParams(){
+    var cpuParams = requesthostMem();
+    availableProcessors = requestAvailableProcessors();
+    physicalMemory = cpuParams[0];
+    swapSpace = cpuParams[1];
+
+    var classParams = requesttotalLoadedandUnloadedClassInfo();
+    totalLoadedClassCount = classParams[0];
+    unloadedClassCount = classParams[1];
+
+    var threadParams = requestPeakandtotalStartedThreadInfo();
+    peakThreadCount = threadParams[0];
+    totalStartedThreadCount = threadParams[1];
+
+    var gcParams = requestCollectorInfo();
+    ygcName = gcParams[0];
+    ygcMemoryPoolNames = gcParams[1];
+    ogcName = gcParams[2];
+    ogcMemoryPoolNames = gcParams[3];
+
+
+    var otherParams = requestRuntimeInfo();
+    bootClassPath = classParams[2];
+    classPath = classParams[3];
+    jvmName = otherParams[0];
+    osName = otherParams[1];
+    compilerName = otherParams[2];
+    inputArguments = otherParams[3];
+    jvmStartTime = otherParams[4];
 }
