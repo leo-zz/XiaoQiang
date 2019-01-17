@@ -37,7 +37,7 @@ public class XiaoQiangHttpClient {
     @Value("${server.port:8080}")
     private int port;
 
-    private int heartBeatInteral=10*1000;
+    private int heartBeatInteral = 10 * 1000;
 
     @Autowired
     private XiaoQiangConfigBean xiaoQiangConfigBean;
@@ -53,12 +53,20 @@ public class XiaoQiangHttpClient {
     @PostConstruct
     public void connectServer() {
         httpClientInit();
-        if (register() && httpConnPool != null) {
-            httpConnPool.execute(() -> {
-                System.out.println(Thread.currentThread().getName() + "开始发送心跳。");
+        httpConnPool.execute(() -> {
+            //如果注册失败，会一直重试
+            boolean isRegister = false;
+            while (!isRegister) {
+                isRegister=register();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+                System.out.println(Thread.currentThread().getName() + "注册成功，开始发送心跳。");
                 heartbeat();
-            });
-        }
+        });
     }
 
     private void httpClientInit() {
@@ -86,18 +94,10 @@ public class XiaoQiangHttpClient {
      * @return
      */
     public boolean register() {
-        int count = 0;
         HttpPost httpPost = new HttpPost("http://" + xiaoQiangURLs[0] + "/register");
         httpPost.setConfig(requestConfig);
-
-        while (!registerFlag) {
-            count++;
-            if (count >= 100) {
-                break;
-            }
-            registerFlag = httpPostRequest(httpPost).isResult();
-        }
-        return count < 100 && registerFlag;
+        registerFlag = httpPostRequest(httpPost).isResult();
+        return registerFlag;
     }
 
 
@@ -128,9 +128,9 @@ public class XiaoQiangHttpClient {
             HttpResult httpResult = httpPostRequest(httpPost);
             try {
                 Thread.sleep(heartBeatInteral);
-                if(httpResult.isResult()){
+                if (httpResult.isResult()) {
                     System.out.println("心跳发送成功");
-                }else{
+                } else {
                     System.out.println("心跳发送失败");
                 }
             } catch (InterruptedException e) {
