@@ -2,8 +2,7 @@ function initDisplay() {
 // 指定图表的配置项和数据
     cpuOption = {
         title: {
-            text: 'CPU使用率%',
-            subtext: 'CPU核心数：' + availableProcessors
+            subtext: 'CPU核心数：' + availableProcessors+'核'
         },
         //提示内容,参考配置项文档http://www.echartsjs.com/option.html#title
         tooltip: {
@@ -54,8 +53,7 @@ function initDisplay() {
     };
     hostMemOption = {
         title: {
-            text: '主机内存使用率%',
-            subtext: '物理内存容量：' + physicalMemory + ',虚拟内存容量：' + swapSpace
+            subtext: '物理内存容量：' + physicalMemory + 'MB,虚拟内存容量：' + swapSpace+'MB'
         },
         tooltip: {
             trigger: 'axis',
@@ -98,7 +96,6 @@ function initDisplay() {
     };
     jvmMemOption = {
         title: {
-            text: 'jvm内存信息'
         },
         tooltip: {
             trigger: 'axis',
@@ -157,8 +154,6 @@ function initDisplay() {
     };
     heapOption = {
         title: {
-            text: 'jvm堆内存信息'
-//            subtext: '物理内存容量：' + physicalMemory+',虚拟内存容量：'+swapSpace
         },
         tooltip: {
             trigger: 'axis',
@@ -205,8 +200,6 @@ function initDisplay() {
     };
     nonHeapOption = {
         title: {
-            text: 'jvm非堆内存信息'
-//            subtext: '物理内存容量：' + physicalMemory+',虚拟内存容量：'+swapSpace
         },
         tooltip: {
             trigger: 'axis',
@@ -253,9 +246,8 @@ function initDisplay() {
     };
     threadOption = {
         title: {
-            text: 'jvm线程信息',
-            //如何让副标题能动态更新？
-            subtext: '线程峰值数：' + peakThreadCount + '，线程总启动数:' + totalStartedThreadCount
+            //TODO 如何让副标题能动态更新？
+            subtext: '线程峰值数：' + peakThreadCount + '个，线程总启动数:' + totalStartedThreadCount+'个'
         },
         //提示内容,参考配置项文档http://www.echartsjs.com/option.html#title
         //使用图标默认的展示样式
@@ -304,7 +296,6 @@ function initDisplay() {
     };
     classOption = {
         title: {
-            text: 'jvm类信息',
             subtext: '类加载总数量：' + totalLoadedClassCount + ',类卸载数量:' + unloadedClassCount
         },
         //提示内容,参考配置项文档http://www.echartsjs.com/option.html#title
@@ -342,7 +333,7 @@ function initDisplay() {
     };
     gcCountOption = {
         title: {
-            text: 'gc次数信息',
+            //TODO 副标题显示不完全，如何换行
             subtext: '年轻代收集器名称：' + ygcName + ',年轻代GC内存区域:' + ygcMemoryPoolNames + ',老年代收集器名称:' + ogcName + ',老年代GC内存区域:' + ogcMemoryPoolNames
         },
         //提示内容,参考配置项文档http://www.echartsjs.com/option.html#title
@@ -386,8 +377,6 @@ function initDisplay() {
     };
     gcTimeOption = {
         title: {
-            text: 'gc耗时信息',
-            subtext: '年轻代收集器名称：' + ygcName + ',年轻代GC内存区域:' + ygcMemoryPoolNames + ',老年代收集器名称:' + ogcName + ',老年代GC内存区域:' + ogcMemoryPoolNames
         },
         //提示内容,参考配置项文档http://www.echartsjs.com/option.html#title
         tooltip: {
@@ -486,7 +475,7 @@ function requesttotalLoadedandUnloadedClassInfo() {
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
     $.get(clientInet+"monitor/class", function (data, status) {
         if (status == "success") {
-            result = [(data.totalLoadedClassCount / 1024 / 1024).toFixed(2) +'MB',(data.unloadedClassCount / 1024 / 1024).toFixed(2) +'MB', data.bootClassPath, data.classPath];
+            result = [data.totalLoadedClassCount,data, data.bootClassPath, data.classPath];
         }
     }, "json");
     $.ajaxSettings.async = true;
@@ -834,8 +823,8 @@ function fillClientInfo() {
 function initParams(){
     var cpuParams = requesthostMem();
     availableProcessors = requestAvailableProcessors();
-    physicalMemory = cpuParams[0];
-    swapSpace = cpuParams[1];
+    physicalMemory = cpuParams[0]/1024/1024;
+    swapSpace = cpuParams[1]/1024/1024;
 
     var classParams = requesttotalLoadedandUnloadedClassInfo();
     totalLoadedClassCount = classParams[0];
