@@ -53,7 +53,7 @@ function initDisplay() {
     };
     hostMemOption = {
         title: {
-            subtext: '物理内存容量：' + physicalMemory + 'MB,虚拟内存容量：' + swapSpace+'MB'
+            subtext: '物理内存容量：' + physicalMemory + 'GB,虚拟内存容量：' + swapSpace+'GB'
         },
         tooltip: {
             trigger: 'axis',
@@ -767,12 +767,20 @@ function requestGCInfo() {
 function format(d) {
     var reuslt = "";
     reuslt += d.getFullYear() + "-";
-    reuslt += (d.getMonth() + 1) + "-";
-    reuslt += d.getDate();
-    reuslt += " " + d.getHours() + ":";
-    reuslt += d.getMinutes() + ":";
-    reuslt += d.getSeconds();
+    reuslt += addZeroIfLess10(d.getMonth() + 1) + "-";
+    reuslt += addZeroIfLess10(d.getDate());
+    reuslt += " " + addZeroIfLess10(d.getHours()) + ":";
+    reuslt += addZeroIfLess10(d.getMinutes()) + ":";
+    reuslt += addZeroIfLess10(d.getSeconds());
     return reuslt;
+}
+
+function addZeroIfLess10(a){
+    var b="";
+    if(a<10){
+        b+="0";
+    }
+    return b+=a;
 }
 
 function fillJVMInfo () {
@@ -821,10 +829,10 @@ function fillClientInfo() {
 }
 
 function initParams(){
-    var cpuParams = requesthostMem();
+    var memParams = requesthostMem();
     availableProcessors = requestAvailableProcessors();
-    physicalMemory = (cpuParams[0]/1024/1024/1024).toFixed(2);
-    swapSpace = (cpuParams[1]/1024/1024/1024).toFixed(2);
+    physicalMemory = (memParams[0]/1024/1024/1024).toFixed(2);
+    swapSpace = (memParams[1]/1024/1024/1024).toFixed(2);
 
     var classParams = requesttotalLoadedandUnloadedClassInfo();
     totalLoadedClassCount = classParams[0];
