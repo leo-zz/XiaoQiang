@@ -1,4 +1,3 @@
-var clientInet;
 function initDisplay() {
 // 指定图表的配置项和数据
     cpuOption = {
@@ -861,4 +860,14 @@ function initParams(){
     compilerName = otherParams[2];
     inputArguments = otherParams[3];
     jvmStartTime = otherParams[4];
+}
+
+function xqDisplay(b) {
+    //初始化参数
+    initParams();
+    //拼接JVM信息的tbody
+    var jvmContent =fillJVMInfo();
+    b.html(jvmContent);
+    initDisplay();
+    beginDisplay();
 }
