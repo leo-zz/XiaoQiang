@@ -775,3 +775,57 @@ function requestGCInfo() {
         }
     }, "json");
 }
+
+function format(d) {
+    var reuslt = "";
+    reuslt += d.getFullYear() + "-";
+    reuslt += (d.getMonth() + 1) + "-";
+    reuslt += d.getDate();
+    reuslt += " " + d.getHours() + ":";
+    reuslt += d.getMinutes() + ":";
+    reuslt += d.getSeconds();
+    return reuslt;
+}
+
+function fillJVMInfo () {
+    var jvmContent = "<tr ><td>"
+        + jvmName
+        + "</td><td>"
+        + osName + "</td><td>"
+        + compilerName
+        + "</td><td>";
+    var time = format(new Date(jvmStartTime));
+    jvmContent += time
+        + "</td><td>"
+        + inputArguments
+        + "</td><td>"
+        + bootClassPath
+        + "</td><td>"
+        + classPath + "</td><tr>";
+    return jvmContent;
+}
+
+function fillClientInfo() {
+    var content = "";
+    $.post("/clientlists", function (data, status) {
+        for (var index in data) {
+            console.log(index);
+            content += "<tr ><td>"
+                + data[index].instanceName
+                + "</td><td>"
+                + data[index].address + "</td><td>"
+                + data[index].port
+                + "</td><td>";
+            var time = format(new Date(data[index].lastConnTime));
+            content += time;
+            content += "</td><td>";
+            var active = "在线";
+            if (!data[index].activeFlag) {
+                active = "离线";
+            }
+            content += active;
+            content += "</td></tr>";
+        }
+    }, "json");
+    return content;
+}

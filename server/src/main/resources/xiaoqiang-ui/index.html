@@ -3,57 +3,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
     <!-- Required Stylesheets -->
     <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="css/fluid.css" media="screen"/>
-
     <link rel="stylesheet" type="text/css" href="css/mws.style.css" media="screen"/>
-
-
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" type="text/css" href="css/mws.theme.css" media="screen"/>
-
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui.js"></script>
     <script type="text/javascript" src="js/mws.js"></script>
-    <script type="text/javascript" src="js/xiaoqiangmonitor.js"></script>
-    <!--<script type="text/javascript" src="js/echarts.js"></script>-->
+    <script type="text/javascript" src="js/xiaoqiang.js"></script>
     <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-
-
     <title>XiaoQiang-UI</title>
-
 </head>
-
 <body>
 <!-- Header Wrapper -->
 <div id="mws-header" class="clearfix">
-
     <!-- Logo Wrapper -->
     <div id="mws-logo-container">
         <div id="mws-logo-wrap"><a href="https://github.com/leo-zz/XiaoQiang">
-            <img src="images/logo.png"/></a>
+            <img src="images/logo.png" alt="XiaoQiangLogo"/></a>
         </div>
     </div>
     <!-- User Area Wrapper -->
     <div id="mws-user-tools" class="clearfix">
-            <div id="mws-github">
-                <a href="https://github.com/leo-zz/XiaoQiang" target="_blank"><img
-                        src="./images/github.png" width="46"></a>
-            </div>
+        <div id="mws-github">
+            <a href="https://github.com/leo-zz/XiaoQiang" target="_blank"><img
+                    src="./images/github.png" alt="GitHub" width="46"></a>
+        </div>
     </div>
 </div>
-
 <!-- Main Wrapper -->
 <div id="mws-wrapper">
     <!-- Necessary markup, do not remove -->
     <div id="mws-sidebar-stitch"></div>
     <div id="mws-sidebar-bg"></div>
-
     <!-- Sidebar Wrapper -->
     <div id="mws-sidebar">
-
         <!-- Main Navigation -->
         <div id="mws-navigation">
             <ul>
@@ -65,17 +51,13 @@
                         <li><a href="#">GC监控</a></li>
                     </ul>
                 </li>
-                <li><a href="table.html">方法异常监控</a></li>
+                <li><a href="#">方法异常监控</a></li>
             </ul>
         </div>
         <!-- End Navigation -->
-
     </div>
-
-
     <!-- Container Wrapper -->
     <div id="mws-container" class="clearfix">
-
         <!-- Main Container -->
         <div class="container">
             <div class="mws-panel grid_8 mws-collapsible">
@@ -97,7 +79,6 @@
                     </table>
                 </div>
             </div>
-
             <div class="mws-panel grid_8 mws-collapsible">
                 <div class="mws-panel-header">
                     <span>JVM信息</span>
@@ -119,7 +100,6 @@
                     </table>
                 </div>
             </div>
-
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
                     <span>CPU信息</span>
@@ -130,7 +110,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
                     <span>主机内存信息</span>
@@ -141,7 +120,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
                     <span>堆内存信息</span>
@@ -152,7 +130,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
                     <span>非堆内存信息</span>
@@ -163,7 +140,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
                     <span>类信息</span>
@@ -174,7 +150,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
                     <span>线程信息</span>
@@ -185,7 +160,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
                     <span>GC次数信息</span>
@@ -196,7 +170,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
                     <span>GC耗时信息</span>
@@ -207,7 +180,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mws-panel grid_8">
                 <div class="mws-panel-header">
                     <span>JVM内存信息</span>
@@ -232,50 +204,15 @@
         <!-- End Main Container -->
     </div>
     <!-- End Container Wrapper -->
-
 </div>
-<!-- End Main Wrapper -->
 
-<!-- 填充表格内容，请求Server的查询接口 -->
+
 <script type="text/javascript">
-    function format(d) {
-        var reuslt = "";
-        reuslt += d.getFullYear() + "-";
-        reuslt += (d.getMonth() + 1) + "-";
-        reuslt += d.getDate();
-        reuslt += " " + d.getHours() + ":";
-        reuslt += d.getMinutes() + ":";
-        reuslt += d.getSeconds();
-        return reuslt;
-    }
+    <!-- End Main Wrapper充表格内容,请求Server的查询接口  -->
+    var clientContent=fillClientInfo();
+    $("#clientlist").html(clientContent);
 
-    $.post("/clientlists", function (data, status) {
-        var content = "";
-        for (var index in data) {
-            console.log(index);
-            content += "<tr ><td>"
-                + data[index].instanceName
-                + "</td><td>"
-                + data[index].address + "</td><td>"
-                + data[index].port
-                + "</td><td>";
-            var time = format(new Date(data[index].lastConnTime));
-            content += time;
-            content += "</td><td>";
-            var active = "在线";
-            if (!data[index].activeFlag) {
-                active = "离线";
-            }
-            content += active;
-            content += "</td></tr>";
-        }
-        $("#clientlist").html(content);
-    }, "json");
-
-
-</script>
-
-<script>
+    //TODO 能够手动切换client信息
     clientInet = "http://localhost:8080/";
     // 基于准备好的dom，初始化echarts实例
     var cpuChart = echarts.init(document.getElementById('cpu'));
@@ -287,7 +224,6 @@
     var threadChart = echarts.init(document.getElementById('thread'));
     var gcCountChart = echarts.init(document.getElementById('gcCount'));
     var gcTimeChart = echarts.init(document.getElementById('gcTime'));
-
     //CPU信息
     var cpuParams = requesthostMem();
     var cpuData = [];
@@ -343,23 +279,9 @@
     var compilerName = otherParams[2];
     var inputArguments = otherParams[3];
     var jvmStartTime = otherParams[4];
-
-    //    var bootClassPathDIV = document.getElementById("bootClassPath");
-    //    var classPathDIV = document.getElementById("classPath");
-    //    var jvmNameDIV = document.getElementById("jvmName");
-    //    var osNameDIV = document.getElementById("osName");
-    //    var compilerNameDIV = document.getElementById("compilerName");
-    //    var inputArgumentsDIV = document.getElementById("inputArguments");
-    //    var jvmStartTimeDIV = document.getElementById("jvmStartTime");
-    //
-    //    bootClassPathDIV.innerHTML = bootClassPath;
-    //    classPathDIV.innerHTML = classPath;
-    //    jvmNameDIV.innerHTML = jvmName;
-    //    osNameDIV.innerHTML = osName;
-    //    compilerNameDIV.innerHTML = compilerName;
-    //    inputArgumentsDIV.innerHTML = inputArguments;
-    //    jvmStartTimeDIV.innerHTML = jvmStartTime;
-
+    //拼接JVM信息的tbody
+    var jvmContent =fillJVMInfo();
+    $("#jvmInfo").html(jvmContent);
     initDisplay();
     beginDisplay();
 </script>
