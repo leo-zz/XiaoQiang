@@ -6,53 +6,16 @@
 
     <!-- Required Stylesheets -->
     <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen"/>
-    <!--<link rel="stylesheet" type="text/css" href="css/text.css" media="screen"/>-->
     <link rel="stylesheet" type="text/css" href="css/fluid.css" media="screen"/>
 
     <link rel="stylesheet" type="text/css" href="css/mws.style.css" media="screen"/>
 
-    <!-- Demo and Plugin Stylesheets -->
-    <!--<link rel="stylesheet" type="text/css" href="css/demo.css" media="screen"/>-->
-
-   <!-- <link rel="stylesheet" type="text/css" href="plugins/colorpicker/colorpicker.css" media="screen"/>
-    <link rel="stylesheet" type="text/css" href="plugins/jimgareaselect/css/imgareaselect-default.css" media="screen"/>
-    <link rel="stylesheet" type="text/css" href="plugins/fullcalendar/fullcalendar.css" media="screen"/>
-    <link rel="stylesheet" type="text/css" href="plugins/fullcalendar/fullcalendar.print.css" media="print"/>
-    <link rel="stylesheet" type="text/css" href="plugins/tipsy/tipsy.css" media="screen"/>
-    <link rel="stylesheet" type="text/css" href="plugins/sourcerer/Sourcerer-1.2.css" media="screen"/>
-    <link rel="stylesheet" type="text/css" href="plugins/jgrowl/jquery.jgrowl.css" media="screen"/>
-    <link rel="stylesheet" type="text/css" href="plugins/spinner/spinner.css" media="screen"/>-->
-<!--    <link rel="stylesheet" type="text/css" href="css/jui/jquery.ui.css" media="screen"/>-->
 
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" type="text/css" href="css/mws.theme.css" media="screen"/>
 
-    <!-- JavaScript Plugins -->
-
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-
-  <!--  <script type="text/javascript" src="plugins/jimgareaselect/jquery.imgareaselect.min.js"></script>
-    <script type="text/javascript" src="plugins/jquery.dualListBox-1.3.min.js"></script>
-    <script type="text/javascript" src="plugins/jgrowl/jquery.jgrowl.js"></script>
-    <script type="text/javascript" src="plugins/jquery.filestyle.js"></script>
-    <script type="text/javascript" src="plugins/fullcalendar/fullcalendar.min.js"></script>
-    <script type="text/javascript" src="plugins/jquery.dataTables.js"></script>-->
-    <!--[if lt IE 9]>
-    <!--<script type="text/javascript" src="plugins/flot/excanvas.min.js"></script>-->
-    <![endif]-->
-    <!--<script type="text/javascript" src="plugins/flot/jquery.flot.min.js"></script>
-    <script type="text/javascript" src="plugins/flot/jquery.flot.pie.min.js"></script>
-    <script type="text/javascript" src="plugins/flot/jquery.flot.stack.min.js"></script>
-    <script type="text/javascript" src="plugins/flot/jquery.flot.resize.min.js"></script>
-    <script type="text/javascript" src="plugins/colorpicker/colorpicker.js"></script>
-    <script type="text/javascript" src="plugins/tipsy/jquery.tipsy.js"></script>
-    <script type="text/javascript" src="plugins/sourcerer/Sourcerer-1.2.js"></script>
-    <script type="text/javascript" src="plugins/jquery.placeholder.js"></script>
-    <script type="text/javascript" src="plugins/jquery.validate.js"></script>
-    <script type="text/javascript" src="plugins/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="plugins/spinner/ui.spinner.js"></script>-->
     <script type="text/javascript" src="js/jquery-ui.js"></script>
-
     <script type="text/javascript" src="js/mws.js"></script>
     <script type="text/javascript" src="js/xiaoqiangmonitor.js"></script>
     <script type="text/javascript" src="js/echarts.js"></script>
@@ -68,9 +31,16 @@
 
     <!-- Logo Wrapper -->
     <div id="mws-logo-container">
-        <div id="mws-logo-wrap">
-            <img src="images/logo.png"/>
+        <div id="mws-logo-wrap"><a href="https://github.com/leo-zz/XiaoQiang">
+            <img src="images/logo.png"/></a>
         </div>
+    </div>
+    <!-- User Area Wrapper -->
+    <div id="mws-user-tools" class="clearfix">
+            <div id="mws-github">
+                <a href="https://github.com/leo-zz/XiaoQiang" target="_blank"><img
+                        src="./images/github.png" width="46"></a>
+            </div>
     </div>
 </div>
 
@@ -162,7 +132,7 @@
 
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
-                    <span >主机内存信息</span>
+                    <span>主机内存信息</span>
                 </div>
                 <div class="mws-panel-body">
                     <div class="mws-panel-content">
@@ -184,7 +154,7 @@
 
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
-                    <span >非堆内存信息</span>
+                    <span>非堆内存信息</span>
                 </div>
                 <div class="mws-panel-body">
                     <div class="mws-panel-content">
@@ -206,7 +176,7 @@
 
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
-                    <span >线程信息</span>
+                    <span>线程信息</span>
                 </div>
                 <div class="mws-panel-body">
                     <div class="mws-panel-content">
@@ -228,7 +198,7 @@
 
             <div class="mws-panel grid_4">
                 <div class="mws-panel-header">
-                    <span >GC耗时信息</span>
+                    <span>GC耗时信息</span>
                 </div>
                 <div class="mws-panel-body">
                     <div class="mws-panel-content">
@@ -239,7 +209,7 @@
 
             <div class="mws-panel grid_8">
                 <div class="mws-panel-header">
-                    <span >JVM内存信息</span>
+                    <span>JVM内存信息</span>
                 </div>
                 <div class="mws-panel-body">
                     <div class="mws-panel-content">
@@ -249,7 +219,7 @@
             </div>
             <div class="mws-panel grid_8">
                 <div class="mws-panel-header">
-                    <span >异常信息</span>
+                    <span>异常信息</span>
                 </div>
                 <div class="mws-panel-body">
                     <div class="mws-panel-content">
@@ -267,14 +237,14 @@
 
 <!-- 填充表格内容，请求Server的查询接口 -->
 <script type="text/javascript">
-  function format(d){
-        var reuslt="";
-        reuslt+=d.getFullYear()+"-";
-        reuslt+=(d.getMonth() + 1)+"-";
-        reuslt+= d.getDate();
-        reuslt+=" "+d.getHours()+":";
-        reuslt+=d.getMinutes()+":";
-        reuslt+=d.getSeconds();
+    function format(d) {
+        var reuslt = "";
+        reuslt += d.getFullYear() + "-";
+        reuslt += (d.getMonth() + 1) + "-";
+        reuslt += d.getDate();
+        reuslt += " " + d.getHours() + ":";
+        reuslt += d.getMinutes() + ":";
+        reuslt += d.getSeconds();
         return reuslt;
     }
 
@@ -305,7 +275,7 @@
 </script>
 
 <script>
-    clientInet="http://localhost:8080/";
+    clientInet = "http://localhost:8080/";
     // 基于准备好的dom，初始化echarts实例
     var cpuChart = echarts.init(document.getElementById('cpu'));
     var hostMemChart = echarts.init(document.getElementById('hostMemRatio'));
@@ -318,7 +288,7 @@
     var gcTimeChart = echarts.init(document.getElementById('gcTime'));
 
     //CPU信息
-    var cpuParams=requesthostMem();
+    var cpuParams = requesthostMem();
     var cpuData = [];
     var jvmCpuData = [];
     var availableProcessors = requestAvailableProcessors();
@@ -342,52 +312,52 @@
     var metaspaceUsedMemory = [];
     var compressedClassSpaceUsedMemory = [];
     //类信息
-    var classParams=requesttotalLoadedandUnloadedClassInfo();
+    var classParams = requesttotalLoadedandUnloadedClassInfo();
     var loadedClassCount = [];
     var totalLoadedClassCount = classParams[0];
     var unloadedClassCount = classParams[1];
     //线程信息
-    var threadParams=requestPeakandtotalStartedThreadInfo();
+    var threadParams = requestPeakandtotalStartedThreadInfo();
     var threadCount = [];
     var deadlockedThreadsNum = [];
     var monitorDeadlockedThreadsNum = [];
     var peakThreadCount = threadParams[0];
     var totalStartedThreadCount = threadParams[1];
     //GC信息
-    var gcParams=requestCollectorInfo();
-    var ygcName=gcParams[0];
-    var ygcMemoryPoolNames =gcParams[1];
-    var ogcName=gcParams[2];
-    var ogcMemoryPoolNames =gcParams[3];
-    var ygcCount=[];
-    var ygcTime=[];
-    var ogcCount=[];
-    var ogcTime=[];
+    var gcParams = requestCollectorInfo();
+    var ygcName = gcParams[0];
+    var ygcMemoryPoolNames = gcParams[1];
+    var ogcName = gcParams[2];
+    var ogcMemoryPoolNames = gcParams[3];
+    var ygcCount = [];
+    var ygcTime = [];
+    var ogcCount = [];
+    var ogcTime = [];
     //其他信息
-    var otherParams=requestRuntimeInfo();
+    var otherParams = requestRuntimeInfo();
     var bootClassPath = classParams[2];
     var classPath = classParams[3];
-    var jvmName=otherParams[0];
-    var osName=otherParams[1];
-    var compilerName=otherParams[2];
-    var inputArguments=otherParams[3];
-    var jvmStartTime=otherParams[4];
+    var jvmName = otherParams[0];
+    var osName = otherParams[1];
+    var compilerName = otherParams[2];
+    var inputArguments = otherParams[3];
+    var jvmStartTime = otherParams[4];
 
-//    var bootClassPathDIV = document.getElementById("bootClassPath");
-//    var classPathDIV = document.getElementById("classPath");
-//    var jvmNameDIV = document.getElementById("jvmName");
-//    var osNameDIV = document.getElementById("osName");
-//    var compilerNameDIV = document.getElementById("compilerName");
-//    var inputArgumentsDIV = document.getElementById("inputArguments");
-//    var jvmStartTimeDIV = document.getElementById("jvmStartTime");
-//
-//    bootClassPathDIV.innerHTML = bootClassPath;
-//    classPathDIV.innerHTML = classPath;
-//    jvmNameDIV.innerHTML = jvmName;
-//    osNameDIV.innerHTML = osName;
-//    compilerNameDIV.innerHTML = compilerName;
-//    inputArgumentsDIV.innerHTML = inputArguments;
-//    jvmStartTimeDIV.innerHTML = jvmStartTime;
+    //    var bootClassPathDIV = document.getElementById("bootClassPath");
+    //    var classPathDIV = document.getElementById("classPath");
+    //    var jvmNameDIV = document.getElementById("jvmName");
+    //    var osNameDIV = document.getElementById("osName");
+    //    var compilerNameDIV = document.getElementById("compilerName");
+    //    var inputArgumentsDIV = document.getElementById("inputArguments");
+    //    var jvmStartTimeDIV = document.getElementById("jvmStartTime");
+    //
+    //    bootClassPathDIV.innerHTML = bootClassPath;
+    //    classPathDIV.innerHTML = classPath;
+    //    jvmNameDIV.innerHTML = jvmName;
+    //    osNameDIV.innerHTML = osName;
+    //    compilerNameDIV.innerHTML = compilerName;
+    //    inputArgumentsDIV.innerHTML = inputArguments;
+    //    jvmStartTimeDIV.innerHTML = jvmStartTime;
 
     initDisplay();
     beginDisplay();
