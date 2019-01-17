@@ -81,5 +81,5 @@ public class XiaoQiangController {
 
         return ((ResponseEntity.BodyBuilder) ResponseEntity.ok().cacheControl(CacheControl.maxAge(1L, TimeUnit.MINUTES))).body(this.indexHtml);
     }
-
 }
+

@@ -38,6 +38,7 @@ public class XiaoQiangHttpClient {
     private int port;
 
     private int heartBeatInteral = 10 * 1000;
+    private int registerInteral = 5 * 1000;
 
     @Autowired
     private XiaoQiangConfigBean xiaoQiangConfigBean;
@@ -57,15 +58,15 @@ public class XiaoQiangHttpClient {
             //如果注册失败，会一直重试
             boolean isRegister = false;
             while (!isRegister) {
-                isRegister=register();
+                isRegister = register();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(registerInteral);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-                System.out.println(Thread.currentThread().getName() + "注册成功，开始发送心跳。");
-                heartbeat();
+            System.out.println(Thread.currentThread().getName() + "注册成功，开始发送心跳。");
+            heartbeat();
         });
     }
 
@@ -110,7 +111,11 @@ public class XiaoQiangHttpClient {
         HttpPost httpPost = new HttpPost("http://" + xiaoQiangURLs[0] + "/unregister");
         httpPost.setConfig(requestConfig);
         HttpResult httpResult = httpPostRequest(httpPost);
-        return httpResult != null && httpResult.isResult();
+        boolean result = httpResult.isResult();
+        if(!result){
+            System.out.println("取消注册失败");
+        }
+        return result;
     }
 
 
@@ -141,12 +146,12 @@ public class XiaoQiangHttpClient {
 
     private HttpResult httpPostRequest(HttpPost httpPost) {
         byte[] bytes = new byte[256];
+        HttpResult httpResult = new HttpResult(false);
         try {
             //一个主机可能有多个ip地址，如何能保证server端通过发送的ip可以找到client？
             httpPost.setEntity(new UrlEncodedFormEntity(nvps));
             HttpResponse response = httpCilent.execute(httpPost);
             InputStream inputStream = response.getEntity().getContent();
-
             StringBuilder stringBuilder = new StringBuilder();
             int read = 0;
             do {
@@ -156,14 +161,15 @@ public class XiaoQiangHttpClient {
                 }
             } while (read != -1);
             String content = stringBuilder.toString();
-            //使用Web项目中的jackson将json字符串转java对象，
-            // 参考：https://www.cnblogs.com/winner-0715/p/6109225.html
-            return objectMapper.readValue(content, HttpResult.class);
-
-        } catch (IOException e) {
+            httpResult = objectMapper.readValue(content, HttpResult.class);
+        } catch (Exception e) {
             e.printStackTrace();
+            //此次请求失败
         }
-        return null;
+        //使用Web项目中的jackson将json字符串转java对象，
+        // 参考：https://www.cnblogs.com/winner-0715/p/6109225.html
+        return httpResult;
+
     }
 
     //关闭时关闭Http连接，回收服务器端的资源。
