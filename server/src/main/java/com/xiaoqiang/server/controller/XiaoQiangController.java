@@ -26,13 +26,13 @@ import static com.xiaoqiang.server.util.ServerCaches.clientsCaches;
 public class XiaoQiangController {
     //获取客户端列表
     @RequestMapping(value = "/clientlists", method = RequestMethod.POST)
-    public List<ClientAdd> clientLists(){
+    public HttpResult<List<ClientAdd>> clientLists(){
         Set<String> keySet = clientsCaches.keySet();
         ArrayList<ClientAdd> clientlists = new ArrayList<>(keySet.size());
         keySet.forEach((key)->{
             clientlists.add(clientsCaches.get(key));
         });
-        return clientlists;
+        return new HttpResult(true,clientlists);
     }
 
     //异常信息列表

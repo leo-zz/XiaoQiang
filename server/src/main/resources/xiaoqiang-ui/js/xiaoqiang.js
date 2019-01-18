@@ -449,9 +449,9 @@ function requestAvailableProcessors() {
     var result = 0;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/cpu", function (data, status) {
-        if (status == "success") {
-            result = data.availableProcessors;
+    $.get(clientInet+"monitor/cpu", function (data) {
+        if (data.result == true) {
+            result = data.value.availableProcessors;
         }
     }, "json");
     $.ajaxSettings.async = true;
@@ -461,9 +461,9 @@ function requesthostMem() {
     var result = 0;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/memory", function (data, status) {
-        if (status == "success") {
-            result = [data.hostMemoryInfo.totalPhysicalMemorySize, data.hostMemoryInfo.totalSwapSpaceSize];
+    $.get(clientInet+"monitor/memory", function (data) {
+        if (data.result == true) {
+            result = [data.value.hostMemoryInfo.totalPhysicalMemorySize, data.value.hostMemoryInfo.totalSwapSpaceSize];
         }
     }, "json");
     $.ajaxSettings.async = true;
@@ -473,9 +473,9 @@ function requesttotalLoadedandUnloadedClassInfo() {
     var result;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/class", function (data, status) {
-        if (status == "success") {
-            result = [data.totalLoadedClassCount,data, data.bootClassPath, data.classPath];
+    $.get(clientInet+"monitor/class", function (data) {
+        if (data.result == true) {
+            result = [data.value.totalLoadedClassCount,data.value, data.value.bootClassPath, data.value.classPath];
         }
     }, "json");
     $.ajaxSettings.async = true;
@@ -485,9 +485,9 @@ function requestPeakandtotalStartedThreadInfo() {
     var result;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/thread", function (data, status) {
-        if (status == "success") {
-            result = [data.peakThreadCount, data.totalStartedThreadCount];
+    $.get(clientInet+"monitor/thread", function (data) {
+        if (data.result == true) {
+            result = [data.value.peakThreadCount, data.value.totalStartedThreadCount];
         }
     }, "json");
     $.ajaxSettings.async = true;
@@ -497,9 +497,9 @@ function requestCollectorInfo() {
     var result;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/gc", function (data, status) {
-        if (status == "success") {
-            result = [data[0].name, data[0].memoryPoolNames,data[1].name, data[1].memoryPoolNames];
+    $.get(clientInet+"monitor/gc", function (data) {
+        if (data.result == true) {
+            result = [data.value[0].name, data.value[0].memoryPoolNames,data.value[1].name, data.value[1].memoryPoolNames];
         }
     }, "json");
     $.ajaxSettings.async = true;
@@ -509,9 +509,9 @@ function requestRuntimeInfo() {
     var result;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/runtime", function (data, status) {
-        if (status == "success") {
-            result = [data.jvmName,data.osName,data.compilerName,data.inputArguments,new Date(data.jvmStartTime)];
+    $.get(clientInet+"monitor/runtime", function (data) {
+        if (data.result == true) {
+            result = [data.value.jvmName,data.value.osName,data.value.compilerName,data.value.inputArguments,new Date(data.value.jvmStartTime)];
         }
     }, "json");
     $.ajaxSettings.async = true;
@@ -520,8 +520,8 @@ function requestRuntimeInfo() {
 
 
 function requestCPUInfo() {
-    $.get(clientInet+"monitor/cpu", function (data, status) {
-        if (status == "success") {
+    $.get(clientInet+"monitor/cpu", function (data) {
+        if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
             var now = new Date();
@@ -530,14 +530,14 @@ function requestCPUInfo() {
                 value: [
                     now,
                     //格式化CPU数据
-                    (data.systemCpuLoad * 100).toFixed(2)
+                    (data.value.systemCpuLoad * 100).toFixed(2)
                 ]
             };
             var bData = {
                 name: now,
                 value: [
                     now,
-                    (data.jvmCpuLoad * 100).toFixed(2)
+                    (data.value.jvmCpuLoad * 100).toFixed(2)
                 ]
             };
             cpuData.push(aData);
@@ -546,8 +546,8 @@ function requestCPUInfo() {
     }, "json");
 }
 function requestClassInfo() {
-    $.get(clientInet+"monitor/class", function (data, status) {
-        if (status == "success") {
+    $.get(clientInet+"monitor/class", function (data) {
+        if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
             var now = new Date();
@@ -555,7 +555,7 @@ function requestClassInfo() {
                 name: now,
                 value: [
                     now,
-                    data.loadedClassCount
+                    data.value.loadedClassCount
                 ]
             };
             loadedClassCount.push(aData);
@@ -563,15 +563,15 @@ function requestClassInfo() {
     }, "json");
 }
 function requestMemoryInfo() {
-    $.get(clientInet+"monitor/memory", function (data, status) {
-        if (status == "success") {
+    $.get(clientInet+"monitor/memory", function (data) {
+        if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
             var now = new Date();
-            var a1 = data.hostMemoryInfo.totalPhysicalMemorySize;
-            var a2 = data.hostMemoryInfo.freePhysicalMemorySize;
-            var a3 = data.hostMemoryInfo.totalSwapSpaceSize;
-            var a4 = data.hostMemoryInfo.freeSwapSpaceSize;
+            var a1 = data.value.hostMemoryInfo.totalPhysicalMemorySize;
+            var a2 = data.value.hostMemoryInfo.freePhysicalMemorySize;
+            var a3 = data.value.hostMemoryInfo.totalSwapSpaceSize;
+            var a4 = data.value.hostMemoryInfo.freeSwapSpaceSize;
 
             var physicalMemoryRatioData = {
                 name: now,
@@ -588,11 +588,11 @@ function requestMemoryInfo() {
             physicalMemoryRatio.push(physicalMemoryRatioData);
             swapSpaceRatio.push(swapSpaceRatioData);
 
-            var b1 = data.jvmMemory.heapUsedMemory;
-            var b2 = data.jvmMemory.heapCommittedMemory;
-            var b3 = data.jvmMemory.nonHeapUsedMemory;
-            var b4 = data.jvmMemory.nonHeapCommittedMemory;
-            var b5 = data.jvmMemory.committedVirtualMemorySize;
+            var b1 = data.value.jvmMemory.heapUsedMemory;
+            var b2 = data.value.jvmMemory.heapCommittedMemory;
+            var b3 = data.value.jvmMemory.nonHeapUsedMemory;
+            var b4 = data.value.jvmMemory.nonHeapCommittedMemory;
+            var b5 = data.value.jvmMemory.committedVirtualMemorySize;
 
 
             var heapUsedMemoryData = {
@@ -602,7 +602,6 @@ function requestMemoryInfo() {
                     now, (b1 / 1024 / 1024).toFixed(2) // + "MB"
                 ]
             };
-            console.log(heapUsedMemoryData);
             var heapCommittedMemoryData = {
                 name: now,
                 value: [
@@ -634,9 +633,9 @@ function requestMemoryInfo() {
             nonHeapCommittedMemory.push(nonHeapCommittedMemoryData);
             committedVirtualMemory.push(committedVirtualMemoryData);
 
-            var c1 = data.memoryPools[3].usage.used;
-            var c2 = data.memoryPools[4].usage.used;
-            var c3 = data.memoryPools[5].usage.used;
+            var c1 = data.value.memoryPools[3].usage.used;
+            var c2 = data.value.memoryPools[4].usage.used;
+            var c3 = data.value.memoryPools[5].usage.used;
             var edenSpaceUsedMemoryData = {
                 name: now,
                 value: [
@@ -661,9 +660,9 @@ function requestMemoryInfo() {
             survivorSpaceUsedMemory.push(survivorSpaceUsedMemoryData);
             oldGenUsedMemory.push(oldGenUsedMemoryData);
 
-            var d1 = data.memoryPools[0].usage.used;
-            var d2 = data.memoryPools[1].usage.used;
-            var d3 = data.memoryPools[2].usage.used;
+            var d1 = data.value.memoryPools[0].usage.used;
+            var d2 = data.value.memoryPools[1].usage.used;
+            var d3 = data.value.memoryPools[2].usage.used;
             var codeCacheUsedMemoryData = {
                 name: now,
                 value: [
@@ -690,8 +689,8 @@ function requestMemoryInfo() {
     }, "json");
 }
 function requestThreadInfo() {
-    $.get(clientInet+"monitor/thread", function (data, status) {
-        if (status == "success") {
+    $.get(clientInet+"monitor/thread", function (data) {
+        if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
             var now = new Date();
@@ -699,21 +698,21 @@ function requestThreadInfo() {
                 name: now,
                 value: [
                     now,
-                    data.threadCount
+                    data.value.threadCount
                 ]
             };
             var bData = {
                 name: now,
                 value: [
                     now,
-                    data.deadlockedThreadsNum
+                    data.value.deadlockedThreadsNum
                 ]
             };
             var cData = {
                 name: now,
                 value: [
                     now,
-                    data.monitorDeadlockedThreadsNum
+                    data.value.monitorDeadlockedThreadsNum
                 ]
             };
             threadCount.push(aData);
@@ -723,8 +722,8 @@ function requestThreadInfo() {
     }, "json");
 }
 function requestGCInfo() {
-    $.get(clientInet+"monitor/gc", function (data, status) {
-        if (status == "success") {
+    $.get(clientInet+"monitor/gc", function (data) {
+        if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
             var now = new Date();
@@ -732,14 +731,14 @@ function requestGCInfo() {
                 name: now,
                 value: [
                     now,
-                    data[0].collectionCount
+                    data.value[0].collectionCount
                 ]
             };
             var bData = {
                 name: now,
                 value: [
                     now,
-                    data[0].collectionTime
+                    data.value[0].collectionTime
                 ]
             };
             ygcCount.push(aData);
@@ -748,14 +747,14 @@ function requestGCInfo() {
                 name: now,
                 value: [
                     now,
-                    data[1].collectionCount
+                    data.value[1].collectionCount
                 ]
             };
             var dData = {
                 name: now,
                 value: [
                     now,
-                    data[1].collectionTime
+                    data.value[1].collectionTime
                 ]
             };
             ogcCount.push(cData);
@@ -804,24 +803,25 @@ function fillJVMInfo () {
 function fillClientInfo() {
     var content = "";
     $.ajaxSettings.async = false;
-    $.post("/xq/clientlists", function (data, status) {
-        for (var index in data) {
-            console.log(index);
-            content += "<tr ><td>"
-                + data[index].instanceName
-                + "</td><td>"
-                + data[index].address + "</td><td>"
-                + data[index].port
-                + "</td><td>";
-            var time = format(new Date(data[index].lastConnTime));
-            content += time;
-            content += "</td><td>";
-            var active = "在线";
-            if (!data[index].activeFlag) {
-                active = "离线";
+    $.post("/xq/clientlists", function (data) {
+        if(data.result == true) {
+            for (var index in data.value) {
+                content += "<tr ><td>"
+                    + data.value[index].instanceName
+                    + "</td><td>"
+                    + data.value[index].address + "</td><td>"
+                    + data.value[index].port
+                    + "</td><td>";
+                var time = format(new Date(data.value[index].lastConnTime));
+                content += time;
+                content += "</td><td>";
+                var active = "在线";
+                if (!data.value[index].activeFlag) {
+                    active = "离线";
+                }
+                content += active;
+                content += "</td></tr>";
             }
-            content += active;
-            content += "</td></tr>";
         }
     }, "json");
     $.ajaxSettings.async = true;
