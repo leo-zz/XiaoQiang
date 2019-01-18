@@ -1,6 +1,8 @@
 package com.xiaoqiang.client.controller;
 
+import com.xiaoqiang.client.entity.EchartTreeNode;
 import com.xiaoqiang.client.entity.ExceptionInfos;
+import com.xiaoqiang.client.entity.HttpResult;
 import com.xiaoqiang.client.util.CacheManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,9 +14,15 @@ import java.util.List;
 public class ExceptionController {
 
     @RequestMapping("query")
-    public List<ExceptionInfos> queryExceptionInfos(){
+    public HttpResult<EchartTreeNode> queryExceptionInfos(){
 
-        return CacheManager.query(System.currentTimeMillis());
+        List<ExceptionInfos> lists= CacheManager.query(System.currentTimeMillis());
+        EchartTreeNode root = new EchartTreeNode();
+        //Lambda
+        lists.forEach(ex->{
+
+        });
+        return new HttpResult(true,root);
     }
 
 }
