@@ -804,7 +804,7 @@ function fillJVMInfo () {
 function fillClientInfo() {
     var content = "";
     $.ajaxSettings.async = false;
-    $.post("/clientlists", function (data, status) {
+    $.post("/xq/clientlists", function (data, status) {
         for (var index in data) {
             console.log(index);
             content += "<tr ><td>"

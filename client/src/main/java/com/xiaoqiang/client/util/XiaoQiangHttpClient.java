@@ -95,7 +95,7 @@ public class XiaoQiangHttpClient {
      * @return
      */
     public boolean register() {
-        HttpPost httpPost = new HttpPost("http://" + xiaoQiangURLs[0] + "/register");
+        HttpPost httpPost = new HttpPost("http://" + xiaoQiangURLs[0] + "/conn/register");
         httpPost.setConfig(requestConfig);
         registerFlag = httpPostRequest(httpPost).isResult();
         return registerFlag;
@@ -108,7 +108,7 @@ public class XiaoQiangHttpClient {
      * @return
      */
     public boolean unregister() {
-        HttpPost httpPost = new HttpPost("http://" + xiaoQiangURLs[0] + "/unregister");
+        HttpPost httpPost = new HttpPost("http://" + xiaoQiangURLs[0] + "/conn/unregister");
         httpPost.setConfig(requestConfig);
         HttpResult httpResult = httpPostRequest(httpPost);
         boolean result = httpResult.isResult();
@@ -126,7 +126,7 @@ public class XiaoQiangHttpClient {
      */
     public void heartbeat() {
         //请求uri前需要加协议信息
-        HttpPost httpPost = new HttpPost("http://" + xiaoQiangURLs[0] + "/heartbeat");
+        HttpPost httpPost = new HttpPost("http://" + xiaoQiangURLs[0] + "/conn/heartbeat");
         httpPost.setConfig(requestConfig);
         while (registerFlag && !heartBeatFlag) {
             //10s发送一次心跳

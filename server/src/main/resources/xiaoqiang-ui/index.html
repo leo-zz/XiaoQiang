@@ -283,6 +283,62 @@
     var jvmStartTime;
 
     xqDisplay(jvmInfo);
+
+    exDisplay();
+    function exDisplay() {
+        var exChart = echarts.init(document.getElementById('exChart'));
+        exChart.showLoading();
+        $.get("js/treeData.json", function (data) {
+            //所有节点都隐藏
+            exChart.hideLoading();
+            echarts.util.each(data.children, function (datum, index) {
+                datum.collapsed = true;
+            });
+            exChart.setOption(option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [
+                    {
+                        type: 'tree',
+                        data: [data],
+                        top: '1%',
+                        left: '7%',
+                        bottom: '1%',
+                        right: '20%',
+                        //设置图标大小
+                        symbolSize: 7,
+                        //设置未展开时图标的标签名称
+                        label: {
+                            normal: {
+                                position: 'left',
+                                verticalAlign: 'middle',
+                                align: 'right',
+                                fontSize: 15
+                            }
+                        },
+                        //设置展开时图标的标签名称
+                        leaves: {
+                            label: {
+                                normal: {
+                                    position: 'right',
+                                    verticalAlign: 'middle',
+                                    align: 'left'
+                                }
+                            }
+                        },
+                        expandAndCollapse: true,
+                        //树状图显示节点的时间
+                        animationDuration: 550,
+                        //树状图展开或缩回的时间
+                        animationDurationUpdate: 750
+                    }
+                ]
+            });
+        }, "json");
+
+    }
 </script>
 </body>
 </html>

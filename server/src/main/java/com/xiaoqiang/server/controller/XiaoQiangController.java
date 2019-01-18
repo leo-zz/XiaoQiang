@@ -1,70 +1,30 @@
 package com.xiaoqiang.server.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiaoqiang.server.eneity.ClientAdd;
+import com.xiaoqiang.server.eneity.EchartTreeNode;
 import com.xiaoqiang.server.eneity.HttpResult;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.http.CacheControl;
-import org.springframework.http.ResponseEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
-import static com.xiaoqiang.server.util.ClientCaches.clientsCaches;
+import static com.xiaoqiang.server.util.ServerCaches.clientsCaches;
 
-//不生效，仅仅是一个注明？
-//@Controller
-//如果未配置xiaoqiang.server.path，默认是/
 @ResponseBody
-@RequestMapping("${xiaoqiang.server.path:/}")
+@RequestMapping("/xq")
 public class XiaoQiangController {
-    /**
-     * 借鉴zipkin的实现方式
-     */
-    @Value("classpath:xiaoqiang-ui/index.html")
-    Resource indexHtml;
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public HttpResult clientRegister(@RequestParam("port") int port, @RequestParam("instanceName") String name, HttpServletRequest req) {
-        String remoteAddr = req.getRemoteAddr();
-        ClientAdd clientAdd = new ClientAdd(remoteAddr, port, name);
-        clientsCaches.put(name, clientAdd);
-        System.out.println("client：" + name + "进行注册，信息为：" + clientAdd);
-        return new HttpResult(true);
-    }
-
-    @RequestMapping(value = "/unregister", method = RequestMethod.POST)
-    public HttpResult clientUnRegister(@RequestParam("instanceName") String name, HttpServletRequest req) {
-        ClientAdd clientAdd = clientsCaches.get(name);
-        if (clientAdd != null) {
-            clientAdd.setActiveFlag(false);
-            clientsCaches.put(name, clientAdd);
-        }
-        System.out.println("client：" + name + "取消注册");
-        return new HttpResult(true);
-    }
-
-
-    @RequestMapping(value = "/heartbeat", method = RequestMethod.POST)
-    public HttpResult clientHeartBeat(@RequestParam("port") int port, @RequestParam("instanceName") String name, HttpServletRequest req) {
-        ClientAdd clientAdd = clientsCaches.get(name);
-        //考虑客户没有注册，直接发送心跳的情况
-        if(clientAdd==null){
-            String remoteAddr = req.getRemoteAddr();
-            clientAdd = new ClientAdd(remoteAddr, port, name);
-        }
-        clientAdd.setActiveFlag(true);
-        clientAdd.setLastConnTime(System.currentTimeMillis());
-        clientsCaches.put(name, clientAdd);
-        System.out.println("更新client：" + name + "，通信时间:" + new Date(clientAdd.getLastConnTime()));
-        return new HttpResult(true);
-    }
-
+    //获取客户端列表
     @RequestMapping(value = "/clientlists", method = RequestMethod.POST)
     public List<ClientAdd> clientLists(){
         Set<String> keySet = clientsCaches.keySet();
@@ -75,11 +35,57 @@ public class XiaoQiangController {
         return clientlists;
     }
 
+    //异常信息列表
+    //TODO 如何优化controller中的http请求
+    @RequestMapping(value = "/exceptions", method = RequestMethod.POST)
+    public HttpResult<EchartTreeNode> excpetionsInfo(@RequestParam("instanceName") String instanceName){
+        //获取地址
+        ClientAdd clientAdd = clientsCaches.get(instanceName);
+        String address = clientAdd.getAddress() + ":" + clientAdd.getPort();
+        //请求异常数据
+        CloseableHttpClient httpCilent = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("http://" + address+ "/exception/query");
+        RequestConfig requestConfig = RequestConfig.custom().
+                setConnectTimeout(180 * 1000).setConnectionRequestTimeout(180 * 1000)
+                .setSocketTimeout(180 * 1000).setRedirectsEnabled(true).build();
+        httpPost.setConfig(requestConfig);
+        String exceptionJson = httpPostRequest(httpPost, httpCilent);
+        if(exceptionJson==null){
+            return new HttpResult<EchartTreeNode>(false);
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        new HttpResult<EchartTreeNode>(false);
+        EchartTreeNode echartTreeNode=null;
+        try {
+            echartTreeNode = objectMapper.readValue(exceptionJson, EchartTreeNode.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+            return echartTreeNode==null ? new HttpResult<EchartTreeNode>(false): new HttpResult<EchartTreeNode>(true,echartTreeNode);
+    }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Resource> index(HttpServletRequest request, Map<String, Object> model) {
 
-        return ((ResponseEntity.BodyBuilder) ResponseEntity.ok().cacheControl(CacheControl.maxAge(1L, TimeUnit.MINUTES))).body(this.indexHtml);
+    private String httpPostRequest(HttpPost httpPost,CloseableHttpClient httpCilent) {
+        byte[] bytes = new byte[256];
+        String content=null;
+        try {
+            //一个主机可能有多个ip地址，如何能保证server端通过发送的ip可以找到client？
+            HttpResponse response = httpCilent.execute(httpPost);
+            InputStream inputStream = response.getEntity().getContent();
+            StringBuilder stringBuilder = new StringBuilder();
+            int read = 0;
+            do {
+                read = inputStream.read(bytes);
+                if (read > 0) {
+                    stringBuilder.append(new String(bytes, 0, read, "utf-8"));
+                }
+            } while (read != -1);
+            content = stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //此次请求失败
+        }
+        return content;
     }
 }
 

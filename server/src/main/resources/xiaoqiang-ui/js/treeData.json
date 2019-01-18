@@ -1,69 +1,65 @@
 {
   "name": "异常信息",
-  "children": [{
-    "name": "java.lang.reflect.InvocationTargetException,exceptionMessage:无",
-    "children": [{
-      "name": "threadName：http-nio-8080-exec-8"
-    }, {
-      "name": "result:false"
-    }, {
-      "name": "retryCount:2"
-    }, {
-      "name": "simplileStackElements",
-      "children": [{
-        "name": "methodName:testmod"
-      },
+  "children": [
+    {
+      "name": "java.lang.reflect.InvocationTargetException,exceptionMessage:无",
+      "children": [
         {
-          "name": "fileName:<generated>"
+          "name": "threadName：http-nio-8080-exec-8"
         },
         {
-          "name": "lineNumber：-1"
+          "name": "result:false"
         },
         {
-          "name": "className：com.xiaoq.testclient.Controller$$EnhancerByCGLIB$$a94f0b5f",
-          "symbolSize": [70, 30],
-          "symbol": "rectangle",
-          "itemStyle": {
-            "normal": {
-              "label": {
-                "show": true,
-                "position": "inside"
-              },
-              "borderWidth": 2,
-              "borderColor": "black"
+          "name": "retryCount:2"
+        },
+        {
+          "name": "simplileStackElements",
+          "children": [
+            {
+              "name": "methodName:testmod"
+            },
+            {
+              "name": "fileName:<generated>"
+            },
+            {
+              "name": "lineNumber：-1"
+            },
+            {
+              "name": "className：com.xiaoq.testclient.Controller$$EnhancerByCGLIB$$a94f0b5f"
+            },
+            {
+              "name": "nativeMethod:false"
             }
-          }
+          ]
         },
         {
-          "name": "nativeMethod:false"
+          "name": "causeException",
+          "value": "java.lang.ArithmeticException,exceptionMessage:/ by zero",
+          "children": [
+            {
+              "name": "methodName",
+              "value": "testmod"
+            },
+            {
+              "name": "fileName",
+              "value": "Controller.java"
+            },
+            {
+              "name": "lineNumber",
+              "value": 15
+            },
+            {
+              "name": "className",
+              "value": "com.xiaoq.testclient.Controller"
+            },
+            {
+              "name": "nativeMethod",
+              "value": false
+            }
+          ]
         }
       ]
-    },
-      {
-        "name": "causeException",
-        "value": "java.lang.ArithmeticException,exceptionMessage:/ by zero",
-        "children": [{
-          "name": "methodName",
-          "value": "testmod"
-        },
-          {
-            "name": "fileName",
-            "value": "Controller.java"
-          },
-          {
-            "name": "lineNumber",
-            "value": 15
-          },
-          {
-            "name": "className",
-            "value": "com.xiaoq.testclient.Controller"
-          },
-          {
-            "name": "nativeMethod",
-            "value": false
-          }
-        ]
-      }
-    ]
-  }]
+    }
+  ]
 }
