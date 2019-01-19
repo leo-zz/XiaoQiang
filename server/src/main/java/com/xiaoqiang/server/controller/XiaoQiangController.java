@@ -1,5 +1,6 @@
 package com.xiaoqiang.server.controller;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiaoqiang.server.eneity.ClientAdd;
 import com.xiaoqiang.server.eneity.EchartTreeNode;
@@ -53,11 +54,14 @@ public class XiaoQiangController {
         if(exceptionJson==null){
             return new HttpResult<EchartTreeNode>(false);
         }
+        //注意：带泛型类型的反序列化操作,参考https://www.cnblogs.com/userrain/p/5415121.html
         ObjectMapper objectMapper = new ObjectMapper();
         new HttpResult<EchartTreeNode>(false);
         EchartTreeNode echartTreeNode=null;
         try {
-            echartTreeNode = objectMapper.readValue(exceptionJson, EchartTreeNode.class);
+            JavaType javaType = objectMapper.getTypeFactory().constructParametricType(HttpResult.class, EchartTreeNode.class);
+            HttpResult<EchartTreeNode> result = (HttpResult<EchartTreeNode>) objectMapper.readValue(exceptionJson, javaType);
+            echartTreeNode = result.getValue();
         } catch (IOException e) {
             e.printStackTrace();
         }

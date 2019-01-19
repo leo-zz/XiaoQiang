@@ -803,7 +803,7 @@ function fillJVMInfo () {
 function fillClientInfo() {
     var content = "";
     $.ajaxSettings.async = false;
-    $.post("/xq/clientlists", function (data) {
+    $.post("http://localhost:5140/xq/clientlists", function (data) {
         if(data.result == true) {
             for (var index in data.value) {
                 content += "<tr ><td>"
