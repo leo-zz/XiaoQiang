@@ -49,7 +49,7 @@ public class XiaoQiangAutoConfiguration extends WebMvcConfigurerAdapter {
         return new XiaoQiangHttpClient();
     }
 
-    //循序跨域访问
+    //允许跨域访问
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

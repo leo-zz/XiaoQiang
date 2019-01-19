@@ -217,7 +217,7 @@
     var jvmInfo=$("#jvmInfo");
 
     //TODO 能够手动切换client信息,默认显示第一个client的信息
-    var clientInet = "http://localhost:8080/";
+    var clientInet = "http://192.168.16.231:8080/";
 
     // 基于准备好的dom，初始化echarts实例
     var cpuChart = echarts.init(document.getElementById('cpu'));
@@ -285,13 +285,15 @@
     xqDisplay(jvmInfo);
 
     exDisplay();
+    //TODO 异常信息展示
     function exDisplay() {
         var exChart = echarts.init(document.getElementById('exChart'));
         exChart.showLoading();
-        $.get("js/treeData.json", function (data) {
+        $.get("xq/exceptions", function (data) {
             //所有节点都隐藏
             exChart.hideLoading();
-            echarts.util.each(data.children, function (datum, index) {
+            if(data.result == true)
+            echarts.util.each(data.value.children, function (datum, index) {
                 datum.collapsed = true;
             });
             exChart.setOption(option = {
@@ -302,7 +304,7 @@
                 series: [
                     {
                         type: 'tree',
-                        data: [data],
+                        data: [data.value],
                         top: '1%',
                         left: '7%',
                         bottom: '1%',

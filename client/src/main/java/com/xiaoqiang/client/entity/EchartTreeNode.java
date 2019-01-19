@@ -28,4 +28,11 @@ public class EchartTreeNode {
     public void setChildren(EchartTreeNode[] children) {
         this.children = children;
     }
+
+    public EchartTreeNode(String name) {
+        this.name = name;
+    }
+
+    public EchartTreeNode() {
+    }
 }

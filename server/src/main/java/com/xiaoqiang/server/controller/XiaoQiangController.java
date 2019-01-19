@@ -32,7 +32,7 @@ public class XiaoQiangController {
         keySet.forEach((key)->{
             clientlists.add(clientsCaches.get(key));
         });
-        return new HttpResult(true,clientlists);
+        return new HttpResult<List<ClientAdd>>(true,clientlists);
     }
 
     //异常信息列表

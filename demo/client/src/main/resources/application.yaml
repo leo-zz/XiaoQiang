@@ -1,6 +1,7 @@
+spring:
+  profiles:
+    active:  peer0
 xiaoqiang:
-  xiaoQiangServerURL: localhost:5140
-  instanceName: xiaoqTest
   monitor:
     clazz: true
     cpu: true
@@ -12,5 +13,21 @@ xiaoqiang:
     Count: 3
     Delay: 500
     onlyMyPackage: false
+---
+xiaoqiang:
+  xiaoQiangServerURL: localhost:5140
+  instanceName: test0
+server:
+  port: 8080
+spring:
+  profiles: peer0
+---
+xiaoqiang:
+  xiaoQiangServerURL: localhost:5140
+  instanceName: test01
+server:
+  port: 8081
+spring:
+  profiles: peer1
 
 

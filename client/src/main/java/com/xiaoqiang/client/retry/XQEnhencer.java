@@ -35,6 +35,8 @@ public class XQEnhencer {
 
     protected Object enhence(Method method, Object[] args, XiaoQiangRetryInfo xiaoQiangRetryInfo) throws InterruptedException, InvocationTargetException, IllegalAccessException {
 
+        long start = System.currentTimeMillis();
+        String methodName = method.getName();
 
         //1.0准备工作
         // 重复异常信息不记录
@@ -56,10 +58,10 @@ public class XQEnhencer {
         }else{
             Map<String, XiaoQiangMethodRetryInfo> methodsInfo = xiaoQiangRetryInfo.getMethodsInfo();
             //1.3方法上增加注解，只增强特定方法，每个方法的参数可以不同
-            if (!xiaoQiangRetryInfo.isMethodAnnotationed() || !methodsInfo.keySet().contains(method.getName())) {
+            if (!xiaoQiangRetryInfo.isMethodAnnotationed() || !methodsInfo.keySet().contains(methodName)) {
                 return method.invoke(subject, args);
             }else{
-                XiaoQiangMethodRetryInfo methodRetryInfo = methodsInfo.get(method.getName());
+                XiaoQiangMethodRetryInfo methodRetryInfo = methodsInfo.get(methodName);
                 retryCount=methodRetryInfo.getRetryCount();
                 retryDelay=methodRetryInfo.getRetryDelay();
             }
@@ -82,7 +84,8 @@ public class XQEnhencer {
                     //执行重试后成功，记录异常信息；
                     result=true;
                     System.out.println("方法经过"+actualRetryCount+"次重试后成功！");
-                    ExceptionInfos exceptionInfos = new ExceptionInfos(result, actualRetryCount, exceptionInfoEntites);
+                    long end1 = System.currentTimeMillis();
+                    ExceptionInfos exceptionInfos = new ExceptionInfos(methodName,end1,end1-start,result, actualRetryCount, exceptionInfoEntites);
                     CacheManager.put(exceptionInfos,System.currentTimeMillis());
                 }
                 break;
@@ -110,7 +113,8 @@ public class XQEnhencer {
                         //重试以失败结尾，保存失败的异常信息，
                         result=false;
                         System.out.println("执行" + retryCount + "次后仍然出错，异常抛出");
-                        ExceptionInfos exceptionInfos = new ExceptionInfos(result, retryCount, exceptionInfoEntites);
+                        long end2 = System.currentTimeMillis();
+                        ExceptionInfos exceptionInfos = new ExceptionInfos(methodName,end2,end2-start,result, retryCount, exceptionInfoEntites);
                         CacheManager.put(exceptionInfos,System.currentTimeMillis());
                         throw ex;
                     }
