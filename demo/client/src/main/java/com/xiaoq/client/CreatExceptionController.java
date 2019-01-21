@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/test1")
 @XiaoQiangRetry(retryCount = 2, retryDelay = 1000)
-public class Controller {
+public class CreatExceptionController {
 
     @RequestMapping("/mod/{a}/{b}")
     public String testmod(@PathVariable("a") int a,@PathVariable("b") int b){
