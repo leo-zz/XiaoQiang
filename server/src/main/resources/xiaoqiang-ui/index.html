@@ -62,7 +62,7 @@
             <!--XiaoQiang 客户端列表-->
             <div class="mws-panel grid_8 mws-collapsible">
                 <div class="mws-panel-header" id="clientName">
-                    <span>XiaoQiang 客户端列表</span>
+                    <span>XiaoQiang 客户端列表---请先选择需要监控的客户端</span>
                 </div>
                 <div class="mws-panel-body">
                     <table class="mws-table">
@@ -88,7 +88,7 @@
                     <table class="mws-table">
                         <thead>
                         <tr>
-                            <th>JVM</th>
+                            <th>名称</th>
                             <th>操作系统</th>
                             <th>编译器</th>
                             <th>启动时间</th>
@@ -244,6 +244,13 @@
     <p>当前服务器已离线</p>
 </div>
 <script type='text/javascript'>
+
+    //能够手动切换client信息
+    var clientInet = "";
+    var instanceName = "";
+
+    var displatFlag = false;
+
     $(function () {
         /*导航内容切换*/
         $(".contentType>div").eq(0).show().siblings().hide();
@@ -266,21 +273,18 @@
             var clientPort = td.eq(2).text();
             var clientStatus = td.eq(4).text();
             var cn = $("#clientName");
-            cn.html("");
-            var clientTitle =
-                "<span>XiaoQiang 客户端列表---" + clientName + "</span>"
-            cn.append(clientTitle);
+
 
             if (clientStatus == "在线") {
                 cn.html("");
-                var clientModel =
-                    "<ul>" +
-                    "<li><label>IP地址：</label><span>" + clientAddress + "</span></li>" +
-                    "<li><label>端口号：</label><span>" + clientPort + "</span></li>" +
-                    "</ul>"
-                $("#clientInfo").append(clientModel);
-                $('.shadow').fadeIn(1000);
-                $('.clientCon').show();
+                var clientTitle =
+                    "<span>XiaoQiang 客户端列表---当前监控" + clientName + "</span>"
+                cn.append(clientTitle);
+                instanceName = clientName;
+                clientInet = "http://" + clientAddress + ":" + clientPort + "/";
+                alert("开始监控客户端：" + instanceName);
+                xqDisplay(jvmInfo);
+                displatFlag = true;
             } else {
                 $('.clientOffline').show();
                 setTimeout(function () {
@@ -295,20 +299,20 @@
     $("#clientlist").html(clientContent);
     var jvmInfo = $("#jvmInfo");
 
-    //TODO 能够手动切换client信息,默认显示第一个client的信息
-    var clientInet = "http://192.168.16.231:8080/";
-    var instanceName="test0";
-
     // 基于准备好的dom，初始化echarts实例
-    var cpuChart = echarts.init(document.getElementById('cpu'));
-    var hostMemChart = echarts.init(document.getElementById('hostMemRatio'));
-    var jvmChart = echarts.init(document.getElementById('jvmMem'));
-    var heapChart = echarts.init(document.getElementById('heapMem'));
-    var nonHeapChart = echarts.init(document.getElementById('nonHeapMem'));
-    var classChart = echarts.init(document.getElementById('class'));
-    var threadChart = echarts.init(document.getElementById('thread'));
-    var gcCountChart = echarts.init(document.getElementById('gcCount'));
-    var gcTimeChart = echarts.init(document.getElementById('gcTime'));
+    var cpuChart;
+    var hostMemChart;
+    var jvmChart;
+    var heapChart;
+    var nonHeapChart;
+    var classChart;
+    var threadChart;
+    var gcCountChart;
+    var gcTimeChart;
+    var exChart;
+
+
+
 
     //创建参数
     //CPU信息
@@ -362,9 +366,6 @@
     var inputArguments;
     var jvmStartTime;
 
-    xqDisplay(jvmInfo);
-    var exChart = echarts.init(document.getElementById('exChart'));
-    exDisplay(exChart, instanceName);
 
 </script>
 

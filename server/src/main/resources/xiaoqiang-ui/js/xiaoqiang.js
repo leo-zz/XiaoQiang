@@ -426,6 +426,7 @@ function beginDisplay() {
         requestThreadInfo();
         requestMemoryInfo();
         requestGCInfo();
+        exDisplay();
 
         // 使用刚指定的配置项和数据显示图表。
         cpuChart.setOption(cpuOption);
@@ -788,19 +789,19 @@ function addZeroIfLess10(a) {
 }
 
 function fillJVMInfo() {
-    var jvmContent = "<tr ><td>"
-        + jvmName
-        + "</td><td>"
-        + osName + "</td><td>"
-        + compilerName
-        + "</td><td>";
     var time = format(new Date(jvmStartTime));
+    var jvmContent = "<tr ><td title='" + jvmName + "'>"
+        + jvmName
+        + "</td><td title='" + osName + "'>"
+        + osName + "</td><td title='" + compilerName + "'>"
+        + compilerName
+        + "</td><td title='" + time + "'>";
     jvmContent += time
-        + "</td><td>"
+        + "</td><td title='" + inputArguments + "'>"
         + inputArguments
-        + "</td><td>"
+        + "</td><td title='" + bootClassPath + "'>"
         + bootClassPath
-        + "</td><td>"
+        + "</td><td title='" + classPath + "'>"
         + classPath + "</td><tr>";
     return jvmContent;
 }
@@ -863,19 +864,76 @@ function initParams() {
     inputArguments = otherParams[3];
     jvmStartTime = otherParams[4];
 }
+function chartsInit() {
+    cpuChart = echarts.init(document.getElementById('cpu'));
+    hostMemChart = echarts.init(document.getElementById('hostMemRatio'));
+    jvmChart = echarts.init(document.getElementById('jvmMem'));
+    heapChart = echarts.init(document.getElementById('heapMem'));
+    nonHeapChart = echarts.init(document.getElementById('nonHeapMem'));
+    classChart = echarts.init(document.getElementById('class'));
+    threadChart = echarts.init(document.getElementById('thread'));
+    gcCountChart = echarts.init(document.getElementById('gcCount'));
+    gcTimeChart = echarts.init(document.getElementById('gcTime'));
+    exChart = echarts.init(document.getElementById('exChart'));
+}
 
+function chartsDispose() {
+    cpuChart.dispose();
+    hostMemChart.dispose();
+    jvmChart.dispose();
+    heapChart.dispose();
+    nonHeapChart.dispose();
+    classChart.dispose();
+    threadChart.dispose();
+    gcCountChart.dispose();
+    gcTimeChart.dispose();
+    exChart.dispose();
+}
+
+function clearArrayContent() {
+    cpuData =[];
+    jvmCpuData =[];
+    physicalMemoryRatio =[];
+    swapSpaceRatio =[];
+    heapUsedMemory =[];
+    heapCommittedMemory =[];
+    nonHeapUsedMemory =[];
+    nonHeapCommittedMemory =[];
+    committedVirtualMemory =[];
+    edenSpaceUsedMemory =[];
+    survivorSpaceUsedMemory =[];
+    oldGenUsedMemory =[];
+    codeCacheUsedMemory =[];
+    metaspaceUsedMemory =[];
+    compressedClassSpaceUsedMemory =[];
+    loadedClassCount =[];
+    threadCount =[];
+    deadlockedThreadsNum =[];
+    monitorDeadlockedThreadsNum =[];
+    ygcCount =[];
+    ygcTime =[];
+    ogcCount =[];
+    ogcTime =[];
+}
 function xqDisplay(b) {
     //初始化参数
     initParams();
     //拼接JVM信息的tbody
     var jvmContent = fillJVMInfo();
     b.html(jvmContent);
+    //如果已经运行过，那么先销毁之前的echarts
+    if(displatFlag){
+        chartsDispose();
+        clearArrayContent();
+        displatFlag=false;
+    }
+    chartsInit();
     initDisplay();
     beginDisplay();
 }
 
 //异常信息展示
-function exDisplay(exChart, instanceName) {
+function exDisplay() {
     exChart.showLoading();
     $.post("/xq/exceptions", {
         instanceName: instanceName
