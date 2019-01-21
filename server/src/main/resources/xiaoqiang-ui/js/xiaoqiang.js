@@ -2,7 +2,7 @@ function initDisplay() {
 // 指定图表的配置项和数据
     cpuOption = {
         title: {
-            subtext: 'CPU核心数：' + availableProcessors+'核'
+            subtext: 'CPU核心数：' + availableProcessors + '核'
         },
         //提示内容,参考配置项文档http://www.echartsjs.com/option.html#title
         tooltip: {
@@ -53,7 +53,7 @@ function initDisplay() {
     };
     hostMemOption = {
         title: {
-            subtext: '物理内存容量：' + physicalMemory + 'GB,虚拟内存容量：' + swapSpace+'GB'
+            subtext: '物理内存容量：' + physicalMemory + 'GB,虚拟内存容量：' + swapSpace + 'GB'
         },
         tooltip: {
             trigger: 'axis',
@@ -95,8 +95,7 @@ function initDisplay() {
         }]
     };
     jvmMemOption = {
-        title: {
-        },
+        title: {},
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -153,8 +152,7 @@ function initDisplay() {
         }]
     };
     heapOption = {
-        title: {
-        },
+        title: {},
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -199,8 +197,7 @@ function initDisplay() {
         }]
     };
     nonHeapOption = {
-        title: {
-        },
+        title: {},
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -247,7 +244,7 @@ function initDisplay() {
     threadOption = {
         title: {
             //TODO 如何让副标题能动态更新？
-            subtext: '线程峰值数：' + peakThreadCount + '个，线程总启动数:' + totalStartedThreadCount+'个'
+            subtext: '线程峰值数：' + peakThreadCount + '个，线程总启动数:' + totalStartedThreadCount + '个'
         },
         //提示内容,参考配置项文档http://www.echartsjs.com/option.html#title
         //使用图标默认的展示样式
@@ -344,7 +341,7 @@ function initDisplay() {
             }
         },
         legend: {
-            data: ['年轻代gc次数','老年代gc次数']
+            data: ['年轻代gc次数', '老年代gc次数']
         },
         xAxis: {
             type: 'time',
@@ -367,7 +364,7 @@ function initDisplay() {
             showSymbol: false,
             hoverAnimation: false,
             data: ygcCount
-        },{
+        }, {
             name: '老年代gc次数',
             type: 'line',
             showSymbol: false,
@@ -376,8 +373,7 @@ function initDisplay() {
         }]
     };
     gcTimeOption = {
-        title: {
-        },
+        title: {},
         //提示内容,参考配置项文档http://www.echartsjs.com/option.html#title
         tooltip: {
             trigger: 'axis',
@@ -386,7 +382,7 @@ function initDisplay() {
             }
         },
         legend: {
-            data: ['年轻代gc耗时','老年代gc耗时']
+            data: ['年轻代gc耗时', '老年代gc耗时']
         },
         xAxis: {
             type: 'time',
@@ -409,7 +405,7 @@ function initDisplay() {
             showSymbol: false,
             hoverAnimation: false,
             data: ygcTime
-        },{
+        }, {
             name: '老年代gc耗时',
             type: 'line',
             showSymbol: false,
@@ -419,7 +415,7 @@ function initDisplay() {
     };
 }
 
-function beginDisplay(){
+function beginDisplay() {
     //更新图标信息
     setInterval(function () {
         //使用ajax调用接口实现数据获取
@@ -449,7 +445,7 @@ function requestAvailableProcessors() {
     var result = 0;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/cpu", function (data) {
+    $.get(clientInet + "monitor/cpu", function (data) {
         if (data.result == true) {
             result = data.value.availableProcessors;
         }
@@ -457,11 +453,12 @@ function requestAvailableProcessors() {
     $.ajaxSettings.async = true;
     return result;
 }
+
 function requesthostMem() {
     var result = 0;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/memory", function (data) {
+    $.get(clientInet + "monitor/memory", function (data) {
         if (data.result == true) {
             result = [data.value.hostMemoryInfo.totalPhysicalMemorySize, data.value.hostMemoryInfo.totalSwapSpaceSize];
         }
@@ -469,23 +466,25 @@ function requesthostMem() {
     $.ajaxSettings.async = true;
     return result;
 }
+
 function requesttotalLoadedandUnloadedClassInfo() {
     var result;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/class", function (data) {
+    $.get(clientInet + "monitor/class", function (data) {
         if (data.result == true) {
-            result = [data.value.totalLoadedClassCount,data.value, data.value.bootClassPath, data.value.classPath];
+            result = [data.value.totalLoadedClassCount, data.value, data.value.bootClassPath, data.value.classPath];
         }
     }, "json");
     $.ajaxSettings.async = true;
     return result;
 }
+
 function requestPeakandtotalStartedThreadInfo() {
     var result;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/thread", function (data) {
+    $.get(clientInet + "monitor/thread", function (data) {
         if (data.result == true) {
             result = [data.value.peakThreadCount, data.value.totalStartedThreadCount];
         }
@@ -493,25 +492,27 @@ function requestPeakandtotalStartedThreadInfo() {
     $.ajaxSettings.async = true;
     return result;
 }
+
 function requestCollectorInfo() {
     var result;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/gc", function (data) {
+    $.get(clientInet + "monitor/gc", function (data) {
         if (data.result == true) {
-            result = [data.value[0].name, data.value[0].memoryPoolNames,data.value[1].name, data.value[1].memoryPoolNames];
+            result = [data.value[0].name, data.value[0].memoryPoolNames, data.value[1].name, data.value[1].memoryPoolNames];
         }
     }, "json");
     $.ajaxSettings.async = true;
     return result;
 }
+
 function requestRuntimeInfo() {
     var result;
     $.ajaxSettings.async = false;
     //ajax默认是异步通信，result的结果不会立刻返回。此处应改成同步
-    $.get(clientInet+"monitor/runtime", function (data) {
+    $.get(clientInet + "monitor/runtime", function (data) {
         if (data.result == true) {
-            result = [data.value.jvmName,data.value.osName,data.value.compilerName,data.value.inputArguments,new Date(data.value.jvmStartTime)];
+            result = [data.value.jvmName, data.value.osName, data.value.compilerName, data.value.inputArguments, new Date(data.value.jvmStartTime)];
         }
     }, "json");
     $.ajaxSettings.async = true;
@@ -520,7 +521,7 @@ function requestRuntimeInfo() {
 
 
 function requestCPUInfo() {
-    $.get(clientInet+"monitor/cpu", function (data) {
+    $.get(clientInet + "monitor/cpu", function (data) {
         if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
@@ -545,8 +546,9 @@ function requestCPUInfo() {
         }
     }, "json");
 }
+
 function requestClassInfo() {
-    $.get(clientInet+"monitor/class", function (data) {
+    $.get(clientInet + "monitor/class", function (data) {
         if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
@@ -562,8 +564,9 @@ function requestClassInfo() {
         }
     }, "json");
 }
+
 function requestMemoryInfo() {
-    $.get(clientInet+"monitor/memory", function (data) {
+    $.get(clientInet + "monitor/memory", function (data) {
         if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
@@ -688,8 +691,9 @@ function requestMemoryInfo() {
         }
     }, "json");
 }
+
 function requestThreadInfo() {
-    $.get(clientInet+"monitor/thread", function (data) {
+    $.get(clientInet + "monitor/thread", function (data) {
         if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
@@ -721,8 +725,9 @@ function requestThreadInfo() {
         }
     }, "json");
 }
+
 function requestGCInfo() {
-    $.get(clientInet+"monitor/gc", function (data) {
+    $.get(clientInet + "monitor/gc", function (data) {
         if (data.result == true) {
             //通常来说，数据用一个二维数组表示。如下，每一列被称为一个『维度』。
             //注意 new Date() 和 Date()的区别
@@ -774,15 +779,15 @@ function format(d) {
     return reuslt;
 }
 
-function addZeroIfLess10(a){
-    var b="";
-    if(a<10){
-        b+="0";
+function addZeroIfLess10(a) {
+    var b = "";
+    if (a < 10) {
+        b += "0";
     }
-    return b+=a;
+    return b += a;
 }
 
-function fillJVMInfo () {
+function fillJVMInfo() {
     var jvmContent = "<tr ><td>"
         + jvmName
         + "</td><td>"
@@ -804,7 +809,7 @@ function fillClientInfo() {
     var content = "";
     $.ajaxSettings.async = false;
     $.post("http://localhost:5140/xq/clientlists", function (data) {
-        if(data.result == true) {
+        if (data.result == true) {
             for (var index in data.value) {
                 content += "<tr ><td>"
                     + data.value[index].instanceName
@@ -828,11 +833,11 @@ function fillClientInfo() {
     return content;
 }
 
-function initParams(){
+function initParams() {
     var memParams = requesthostMem();
     availableProcessors = requestAvailableProcessors();
-    physicalMemory = (memParams[0]/1024/1024/1024).toFixed(2);
-    swapSpace = (memParams[1]/1024/1024/1024).toFixed(2);
+    physicalMemory = (memParams[0] / 1024 / 1024 / 1024).toFixed(2);
+    swapSpace = (memParams[1] / 1024 / 1024 / 1024).toFixed(2);
 
     var classParams = requesttotalLoadedandUnloadedClassInfo();
     totalLoadedClassCount = classParams[0];
@@ -863,8 +868,66 @@ function xqDisplay(b) {
     //初始化参数
     initParams();
     //拼接JVM信息的tbody
-    var jvmContent =fillJVMInfo();
+    var jvmContent = fillJVMInfo();
     b.html(jvmContent);
     initDisplay();
     beginDisplay();
+}
+
+//异常信息展示
+function exDisplay(exChart, instanceName) {
+    exChart.showLoading();
+    $.post("/xq/exceptions", {
+        instanceName: instanceName
+    }, function (data) {
+        //所有节点都隐藏
+        exChart.hideLoading();
+        if (data.result == true & data.value != null) {
+            echarts.util.each(data.value.children, function (datum, index) {
+                datum.collapsed = true;
+            });
+            exChart.setOption(option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [
+                    {
+                        type: 'tree',
+                        data: [data.value],
+                        top: '1%',
+                        left: '7%',
+                        bottom: '1%',
+                        right: '20%',
+                        //设置图标大小
+                        symbolSize: 7,
+                        //设置未展开时图标的标签名称
+                        label: {
+                            normal: {
+                                position: 'left',
+                                verticalAlign: 'middle',
+                                align: 'right',
+                                fontSize: 15
+                            }
+                        },
+                        //设置展开时图标的标签名称
+                        leaves: {
+                            label: {
+                                normal: {
+                                    position: 'right',
+                                    verticalAlign: 'middle',
+                                    align: 'left'
+                                }
+                            }
+                        },
+                        expandAndCollapse: true,
+                        //树状图显示节点的时间
+                        animationDuration: 550,
+                        //树状图展开或缩回的时间
+                        animationDurationUpdate: 750
+                    }
+                ]
+            });
+        }
+    }, "json");
 }
