@@ -61,8 +61,8 @@
         <div class="container">
             <!--XiaoQiang 客户端列表-->
             <div class="mws-panel grid_8 mws-collapsible">
-                <div class="mws-panel-header" id="clientName">
-                    <span>XiaoQiang 客户端列表---请先选择需要监控的客户端</span>
+                <div class="mws-panel-header">
+                    <span id="clientName">XiaoQiang 客户端列表---请先选择需要监控的客户端</span>
                 </div>
                 <div class="mws-panel-body">
                     <table class="mws-table">
@@ -248,6 +248,7 @@
     //能够手动切换client信息
     var clientInet = "";
     var instanceName = "";
+    var timer;
 
     var displatFlag = false;
 
@@ -278,7 +279,7 @@
             if (clientStatus == "在线") {
                 cn.html("");
                 var clientTitle =
-                    "<span>XiaoQiang 客户端列表---当前监控" + clientName + "</span>"
+                    "XiaoQiang 客户端列表---当前监控" + clientName + ""
                 cn.append(clientTitle);
                 instanceName = clientName;
                 clientInet = "http://" + clientAddress + ":" + clientPort + "/";

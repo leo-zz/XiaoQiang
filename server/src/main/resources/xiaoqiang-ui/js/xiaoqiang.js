@@ -417,7 +417,7 @@ function initDisplay() {
 
 function beginDisplay() {
     //更新图标信息
-    setInterval(function () {
+    timer=setInterval(function () {
         //使用ajax调用接口实现数据获取
         //使用jsonp解决跨域问题，需要接口处理jsonp参数 参考https://blog.csdn.net/m_jack/article/details/80497617
         //设置响应头 response.setHeader("Access-Control-Allow-Origin", "*");  参考https://blog.csdn.net/idomyway/article/details/79572973
@@ -923,6 +923,8 @@ function xqDisplay(b) {
     b.html(jvmContent);
     //如果已经运行过，那么先销毁之前的echarts
     if(displatFlag){
+        //清楚旧的定时器
+        clearInterval(timer);
         chartsDispose();
         clearArrayContent();
         displatFlag=false;
