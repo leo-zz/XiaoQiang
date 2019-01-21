@@ -16,21 +16,21 @@
 
 #####          主机CPU、内存的性能监控：
 
-![1548041192992](F:\orange\cnblog\XQ\XiaoQiang\demo\pic\主机信息监控.png)
+![1548041192992](https://github.com/leo-zz/XiaoQiang/raw/master/demo/pic/%E4%B8%BB%E6%9C%BA%E4%BF%A1%E6%81%AF%E7%9B%91%E6%8E%A7.png)
 
 #####          JVM内存监控
 
-![1548042415690](F:\orange\cnblog\XQ\XiaoQiang\demo\pic\JVM内存监控.png)
+![1548042415690](https://github.com/leo-zz/XiaoQiang/raw/master/demo/pic/JVM%E5%86%85%E5%AD%98%E7%9B%91%E6%8E%A7.png)
 
 ![1547706002731](https://raw.githubusercontent.com/leo-zz/XiaoQiang/master/demo/pic/1547706002731.png)
 
 #####          垃圾回收的监控
 
-![1547705940319](F:\orange\cnblog\XQ\XiaoQiang\demo\pic\GC监控.png)
+![1547705940319](https://github.com/leo-zz/XiaoQiang/raw/master/demo/pic/GC%E7%9B%91%E6%8E%A7.png)
 
 #####          方法异常的监控
 
-![1548043517156](F:\orange\cnblog\XQ\XiaoQiang\demo\pic\异常信息.png)
+![1548043517156](https://github.com/leo-zz/XiaoQiang/raw/master/demo/pic/%E5%BC%82%E5%B8%B8%E4%BF%A1%E6%81%AF.png)
 
 ## Hello XiaoQiang!
 
