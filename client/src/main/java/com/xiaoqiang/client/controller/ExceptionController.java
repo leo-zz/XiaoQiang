@@ -106,9 +106,12 @@ public class ExceptionController {
             stacksNode.setChildren(stackNodes);
             threeLists.add(stacksNode);
         }
-        threeLists.add(generateExNode(exEntity.getCauseException(), "异常原因："));
+        ExceptionInfoEntity causeException = exEntity.getCauseException();
+        if(causeException!=null){
+            threeLists.add(generateExNode(causeException, "异常原因："));
+        }
         List<ExceptionInfoEntity> suppressedExceptions = exEntity.getSuppressedExceptions();
-        if (suppressedExceptions.size() > 0) {
+        if (suppressedExceptions!=null&&suppressedExceptions.size() > 0) {
             threeLists.add(generateExListsNode(suppressedExceptions, "屏蔽异常："));
         }
         threelevelRootNode.setChildren(threeLists.toArray(new EchartTreeNode[threeLists.size()]));
