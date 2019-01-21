@@ -4,6 +4,7 @@ table.mws-table
 	margin:0;
 	border:0;
 	border-collapse:collapse;
+	table-layout: fixed;
 }
 
 .mws-table thead tr
@@ -30,6 +31,9 @@ table.mws-table
 	border-left-width:1px;
 	border-left-style:dotted;
 	border-left-color:#bebebe !important;
+	white-space: nowrap;/*控制单行显示*/
+	overflow: hidden;/*超出隐藏*/
+	text-overflow: ellipsis;/*隐藏的字符用省略号表示*/
 }
 
 .mws-table tbody td:first-child, 

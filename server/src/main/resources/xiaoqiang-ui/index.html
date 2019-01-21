@@ -1,11 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <!-- Required Stylesheets -->
     <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="css/fluid.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
     <link rel="stylesheet" type="text/css" href="css/mws.style.css" media="screen"/>
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" type="text/css" href="css/mws.theme.css" media="screen"/>
@@ -19,19 +19,6 @@
 <body>
 <!-- Header Wrapper -->
 <div id="mws-header" class="clearfix">
-    <!-- Logo Wrapper -->
-    <div id="mws-logo-container">
-        <div id="mws-logo-wrap"><a href="https://github.com/leo-zz/XiaoQiang">
-            <img src="images/logo.png" alt="XiaoQiangLogo"/></a>
-        </div>
-    </div>
-    <!-- User Area Wrapper -->
-    <div id="mws-user-tools" class="clearfix">
-        <div id="mws-github">
-            <a href="https://github.com/leo-zz/XiaoQiang" target="_blank"><img
-                    src="./images/github.png" alt="GitHub" width="46"></a>
-        </div>
-    </div>
 </div>
 <!-- Main Wrapper -->
 <div id="mws-wrapper">
@@ -42,16 +29,16 @@
     <div id="mws-sidebar">
         <!-- Main Navigation -->
         <div id="mws-navigation">
-            <ul>
-                <li class="active"><a href="#">JVM监控</a>
-                    <ul>
-                        <li><a href="#">主机信息监控</a></li>
-                        <li><a href="#">JVM内存监控</a></li>
-                        <li><a href="#">类与线程监控</a></li>
-                        <li><a href="#">GC监控</a></li>
-                    </ul>
+        	<ul>
+                <li ><a href="javascript:void();">主机监控</a>
+                    <ul class="navList">
+		                <li class="active"><a href="javascript:void();">主机信息监控</a></li>
+		                <li><a href="javascript:void();">JVM内存监控</a></li>
+		                <li><a href="javascript:void();">类与线程监控</a></li>
+		                <li><a href="javascript:void();">GC监控</a></li>
+						<li><a href="javascript:void();">方法异常监控</a></li>
+		            </ul>
                 </li>
-                <li><a href="#">方法异常监控</a></li>
             </ul>
         </div>
         <!-- End Navigation -->
@@ -60,8 +47,9 @@
     <div id="mws-container" class="clearfix">
         <!-- Main Container -->
         <div class="container">
+        	<!--XiaoQiang 客户端列表-->
             <div class="mws-panel grid_8 mws-collapsible">
-                <div class="mws-panel-header">
+                <div class="mws-panel-header" id="clientName">
                     <span>XiaoQiang 客户端列表</span>
                 </div>
                 <div class="mws-panel-body">
@@ -75,10 +63,11 @@
                             <th>状态</th>
                         </tr>
                         </thead>
-                        <tbody id="clientlist"/>
+                        <tbody id="clientlist">
                     </table>
                 </div>
             </div>
+            <!--JVM信息-->
             <div class="mws-panel grid_8 mws-collapsible">
                 <div class="mws-panel-header">
                     <span>JVM信息</span>
@@ -96,125 +85,205 @@
                             <th>普通类路径</th>
                         </tr>
                         </thead>
-                        <tbody id="jvmInfo"/>
+                        <tbody id="jvmInfo">
                     </table>
                 </div>
             </div>
-            <div class="mws-panel grid_4">
-                <div class="mws-panel-header">
-                    <span>CPU使用率%</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="cpu" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
+        </div>
+        <div class="container contentType">
+            <!--2:主机监控-->
+            <div class="contentType_list">
+	            	<!--CPU使用率%-->
+		            <div class="mws-panel grid_4">
+		                <div class="mws-panel-header">
+		                    <span>CPU使用率%</span>
+		                </div>
+		                <div class="mws-panel-body">
+		                    <div class="mws-panel-content">
+		                        <div id="cpu" style="width:100%; height:300px; "></div>
+		                    </div>
+		                </div>
+		            </div>
+		            <!--主机内存使用率-->
+		            <div class="mws-panel grid_4">
+		                <div class="mws-panel-header">
+		                    <span>主机内存使用率%</span>
+		                </div>
+		                <div class="mws-panel-body">
+		                    <div class="mws-panel-content">
+		                        <div id="hostMemRatio" style="width:100%; height:300px; "></div>
+		                    </div>
+		                </div>
+		            </div>
+	        </div>
+            
+            <!--3:JVM内存监控-->
+            <div class="contentType_list">
+				<!--JVM内存信息-->
+	            <div class="mws-panel grid_8">
+	                <div class="mws-panel-header">
+	                    <span>JVM内存信息</span>
+	                </div>
+	                <div class="mws-panel-body">
+	                    <div class="mws-panel-content">
+	                        <div id="jvmMem" style="width:100%; height:300px; "></div>
+	                    </div>
+	                </div>
+	            </div>
+				<!--堆内存信息-->
+	            <div class="mws-panel grid_4">
+	                <div class="mws-panel-header">
+	                    <span>堆内存信息</span>
+	                </div>
+	                <div class="mws-panel-body">
+	                    <div class="mws-panel-content">
+	                        <div id="heapMem" style="width:100%; height:300px; "></div>
+	                    </div>
+	                </div>
+	            </div>
+	            <!--非堆内存信息-->
+	            <div class="mws-panel grid_4">
+	                <div class="mws-panel-header">
+	                    <span>非堆内存信息</span>
+	                </div>
+	                <div class="mws-panel-body">
+	                    <div class="mws-panel-content">
+	                        <div id="nonHeapMem" style="width:100%; height:300px; "></div>
+	                    </div>
+	                </div>
+	            </div>
             </div>
-            <div class="mws-panel grid_4">
-                <div class="mws-panel-header">
-                    <span>主机内存使用率%</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="hostMemRatio" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mws-panel grid_8">
-                <div class="mws-panel-header">
-                    <span>JVM内存信息</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="jvmMem" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mws-panel grid_4">
-                <div class="mws-panel-header">
-                    <span>堆内存信息</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="heapMem" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
-            </div>
-            <div class="mws-panel grid_4">
-                <div class="mws-panel-header">
-                    <span>非堆内存信息</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="nonHeapMem" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
-            </div>
-            <div class="mws-panel grid_4">
-                <div class="mws-panel-header">
-                    <span>类信息</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="class" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
-            </div>
-            <div class="mws-panel grid_4">
-                <div class="mws-panel-header">
-                    <span>线程信息</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="thread" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
-            </div>
-            <div class="mws-panel grid_4">
-                <div class="mws-panel-header">
-                    <span>GC次数信息</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="gcCount" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
-            </div>
-            <div class="mws-panel grid_4">
-                <div class="mws-panel-header">
-                    <span>GC耗时信息</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="gcTime" style="width:100%; height:300px; "></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mws-panel grid_8">
-                <div class="mws-panel-header">
-                    <span>异常信息</span>
-                </div>
-                <div class="mws-panel-body">
-                    <div class="mws-panel-content">
-                        <div id="exChart" style="width:100%; height:600px; "></div>
-                    </div>
-                </div>
-            </div>
+            <!--4:类与线程监控-->
+            <div class="contentType_list">
+	            <div class="mws-panel grid_4">
+	                <div class="mws-panel-header">
+	                    <span>类信息</span>
+	                </div>
+	                <div class="mws-panel-body">
+	                    <div class="mws-panel-content">
+	                        <div id="class" style="width:100%; height:300px; "></div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="mws-panel grid_4">
+	                <div class="mws-panel-header">
+	                    <span>线程信息</span>
+	                </div>
+	                <div class="mws-panel-body">
+	                    <div class="mws-panel-content">
+	                        <div id="thread" style="width:100%; height:300px; "></div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        <!--5:GC监控-->
+	        <div class="contentType_list">
+	            <div class="mws-panel grid_4">
+	                <div class="mws-panel-header">
+	                    <span>GC次数信息</span>
+	                </div>
+	                <div class="mws-panel-body">
+	                    <div class="mws-panel-content">
+	                        <div id="gcCount" style="width:100%; height:300px; "></div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="mws-panel grid_4">
+	                <div class="mws-panel-header">
+	                    <span>GC耗时信息</span>
+	                </div>
+	                <div class="mws-panel-body">
+	                    <div class="mws-panel-content">
+	                        <div id="gcTime" style="width:100%; height:300px; "></div>
+	                    </div>
+	                </div>
+	            </div>
+			</div>
+			<!--6:方法异常监控-->
+			<div class="contentType_list">
+	            <div class="mws-panel grid_8">
+	                <div class="mws-panel-header">
+	                    <span>异常信息</span>
+	                </div>
+	                <div class="mws-panel-body">
+	                    <div class="mws-panel-content">
+	                        <div id="exChart" style="width:100%; height:600px; "></div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
         </div>
         <!-- End Main Container -->
     </div>
     <!-- End Container Wrapper -->
 </div>
-
+<!--XiaoQiang 客户端列表详情-->
+<div class="shadow"></div>
+<div class="clientCon">
+    <div class="clientTitle">客户端详情
+    	<span class="clientClose">x</span>
+    </div>
+    <div class="clientInfo" id="clientInfo">
+        
+    </div>
+</div>
+<!--离线提示信息-->
+<div class="clientOffline">
+	<p>当前服务器已离线</p>
+</div>
+<script type='text/javascript'>
+$(function(){
+	/*导航内容切换*/
+	$(".contentType>div").eq(0).show().siblings().hide();
+	$(".navList>li").click(function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        var index = $(this).index();
+        $(".contentType>div").eq(index).show().siblings().hide();
+    })
+	/*关闭弹窗*/
+	$('.clientClose').click(function(){
+		$('.shadow').hide();
+		$('.clientCon').hide();
+	});
+	
+	/*表格行点击事件*/
+	$("#clientlist").on("click","tr",function() {
+		var td = $(this).find("td");
+		var clientName = td.eq(0).text();
+		var clientAddress = td.eq(1).text();
+		var clientPort = td.eq(2).text();
+		var clientStatus = td.eq(4).text();
+		
+		$("#clientName").html("");
+		var clientTitle=
+			"<span>XiaoQiang 客户端列表---"+clientName+"</span>"
+		$("#clientName").append(clientTitle);
+		
+		if (clientStatus=="在线") {
+			$("#clientInfo").html("");
+			var clientModel=
+				"<ul>"+
+		        	"<li><label>IP地址：</label><span>"+clientAddress+"</span></li>"+
+		        	"<li><label>端口号：</label><span>"+clientPort+"</span></li>"+
+		        "</ul>"
+		    $("#clientInfo").append(clientModel);
+			$('.shadow').fadeIn(1000);
+			$('.clientCon').show();
+		} else{
+			$('.clientOffline').show();
+			setTimeout(function(){
+				$('.clientOffline').hide();
+			},3000)
+		}
+	});
+})
+</script>
 
 <script type="text/javascript">
-    <!-- 请求clientlists查询接口，填充表格内容 -->
-    var clientContent = fillClientInfo();
+    /*请求clientlists查询接口，填充表格内容 */
+    var clientContent=fillClientInfo();
     $("#clientlist").html(clientContent);
-    var jvmInfo = $("#jvmInfo");
+    var jvmInfo=$("#jvmInfo");
 
     //TODO 能够手动切换client信息,默认显示第一个client的信息
     var clientInet = "http://192.168.16.231:8080/";
@@ -234,12 +303,12 @@
     //CPU信息
     var cpuData = [];
     var jvmCpuData = [];
-    var availableProcessors;
+    var availableProcessors ;
     //主机内存信息 hostMemRatio
     var physicalMemoryRatio = [];
     var swapSpaceRatio = [];
     var physicalMemory;
-    var swapSpace;
+    var swapSpace ;
     //JVM内存情况
     var heapUsedMemory = [];
     var heapCommittedMemory = [];
@@ -268,18 +337,18 @@
     var ygcName;
     var ygcMemoryPoolNames;
     var ogcName;
-    var ogcMemoryPoolNames;
+    var ogcMemoryPoolNames ;
     var ygcCount = [];
     var ygcTime = [];
     var ogcCount = [];
     var ogcTime = [];
     //其他信息
-    var bootClassPath;
-    var classPath;
+    var bootClassPath ;
+    var classPath ;
     var jvmName;
-    var osName;
-    var compilerName;
-    var inputArguments;
+    var osName ;
+    var compilerName ;
+    var inputArguments ;
     var jvmStartTime;
 
     xqDisplay(jvmInfo);

@@ -19,7 +19,7 @@ div#mws-user-tools #mws-user-info #mws-user-functions #mws-username,
 .ui-state-hover a, 
 .ui-state-focus a
 {
-	color:#c5d52b;
+	color:#c5d52b!important;
 	text-shadow:0 0 6px rgba(197, 213, 42, 0.5);
 }
 
