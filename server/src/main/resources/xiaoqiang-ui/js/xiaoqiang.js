@@ -426,7 +426,6 @@ function beginDisplay() {
         requestThreadInfo();
         requestMemoryInfo();
         requestGCInfo();
-        exDisplay();
 
         // 使用刚指定的配置项和数据显示图表。
         cpuChart.setOption(cpuOption);
@@ -925,13 +924,15 @@ function xqDisplay(b) {
     if(displatFlag){
         //清楚旧的定时器
         clearInterval(timer);
-        chartsDispose();
+        //复用echarts，不在切换时销毁和重新初始化。
+        // chartsDispose();
         clearArrayContent();
         displatFlag=false;
     }
-    chartsInit();
     initDisplay();
     beginDisplay();
+    //由于异常信息的树图不具有动态刷新的功能，单独处理
+    exDisplay();
 }
 
 //异常信息展示
