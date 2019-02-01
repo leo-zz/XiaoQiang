@@ -98,7 +98,7 @@ public class XiaoQiangAutoConfiguration extends WebMvcConfigurerAdapter {
     }
 
     /**
-     *  注入XiaoQiangConfigBean，通过配置设置Server通信相关的参数。
+     *  注入{@link XiaoQiangConfigBean}，通过配置设置Server通信相关的参数。
      * @return
      */
     @Bean

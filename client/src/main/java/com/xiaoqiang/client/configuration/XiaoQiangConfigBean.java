@@ -3,8 +3,11 @@ package com.xiaoqiang.client.configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- *  Spring在以@Bean的方式创建对象（执行构造方法）后会自动注入属性
+ *  配置client的实例名称，以及Server的URL地址。
+ *  Spring在以@Bean的方式创建对象（执行构造方法）后会自动注入属性。
  *  注：如果属性的getter/setter方法名称有误，会导致属性注入失败。
+ *
+ * @Author:leo-zz
  */
 @ConfigurationProperties(XiaoQiangConfigBean.PREFIX)
 public class XiaoQiangConfigBean {

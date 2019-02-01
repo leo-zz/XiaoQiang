@@ -2,6 +2,13 @@ package com.xiaoqiang.client.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ *
+ *  用于解析配置文件中的数据，确定方法重试的次数、重试时间间隔、是否只打印项目中代码的异常信息、动态代理的方式。
+ *  Spring根据注解和映射metadata，自动将配置文件中的属性值注入。
+ *
+ *  @Author:leo-zz
+ */
 @ConfigurationProperties(XiaoQiangRetryConfigBean.PREFIX)
 public class XiaoQiangRetryConfigBean {
     static final String PREFIX = "xiaoqiang.retry";

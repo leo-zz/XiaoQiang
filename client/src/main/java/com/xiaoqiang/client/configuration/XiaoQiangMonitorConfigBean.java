@@ -3,7 +3,11 @@ package com.xiaoqiang.client.configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Spring根据注解和映射metadata，自动将配置文件中的属性值注入
+ *
+ *  用于解析配置文件中的数据，确定开启class、cpu、gc、memory、thread、runtimeJVM信息的监控
+ *  Spring根据注解和映射metadata，自动将配置文件中的属性值注入。
+ *
+ *  @Author:leo-zz
  */
 @ConfigurationProperties(XiaoQiangMonitorConfigBean.PREFIX)
 public class XiaoQiangMonitorConfigBean {
